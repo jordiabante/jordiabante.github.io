@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <title>current lab members</title>
-    <base href="https://jordiabante.github.io">
+    <base href="https://jordiabante.github.io/">
     <meta name="description" content="machine learning &amp; biological discovery">
     <meta name="author" content='Jordi Abante'>
 
@@ -17,25 +17,12 @@
     
 
     
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-180667417-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-
 
 </head>
 
     <body><div class="container mt-5">
     <nav class="navbar navbar-expand-sm flex-column flex-sm-row p-0">
-        <a class="navbar-brand mr-sm-auto d-flex align-items-center" href="https://jordiabante.github.io">
+        <a class="navbar-brand mr-sm-auto d-flex align-items-center" href="https://jordiabante.github.io/">
             abante lab @ ub
         </a>
         <div class="navbar-nav flex-row">
@@ -85,7 +72,7 @@ if (!doNotTrack) {
     <style>
 .grid-members {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 30px;
   justify-items: center;
   margin-bottom: 40px;
@@ -96,20 +83,28 @@ if (!doNotTrack) {
 }
 
 .lab-member img {
+  width: 150px;
   height: 150px;
+  object-fit: cover;
   border-radius: 8px;
   margin-bottom: 10px;
-  width: auto;
+}
+
+@media (max-width: 900px) {
+  .grid-members { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 500px) {
+  .grid-members { grid-template-columns: 1fr; }
 }
 </style>
-<h1 id="current-lab-members">current lab members</h1>
+<h2 id="current-lab-members">current lab members</h2>
 <div class="grid-members">
   <div class="lab-member">
     <img src="/team/jordi_abante.png" alt="Jordi Abante">
     <div>
       <strong>Jordi Abante, PhD</strong><br>
       <em>Principal Investigator</em><br>
-      Department of Biomedical Sciences<br>
+      Department of Biomedicine<br>
       Universitat de Barcelona
     </div>
   </div>
@@ -120,6 +115,17 @@ if (!doNotTrack) {
       <em>PhD student</em><br>
       Department of Biomedicine<br>
       Universitat de Barcelona<br>
+    </div>
+  </div>
+  <div class="lab-member">
+    <img src="/team/david_bonet.jpg" alt="David Bonet">
+    <div>
+      <strong>David Bonet</strong><br>
+      <em>PhD student</em><br>
+      Department of Biomedicine<br>
+      Universitat de Barcelona<br>
+      University of California Santa Cruz<br>
+      <em>(co-sup w/ A. Ioannidis, Stanford University)</em>
     </div>
   </div>
   <div class="lab-member">
@@ -146,11 +152,11 @@ if (!doNotTrack) {
       <strong>David García Ortiz</strong><br>
       <em>BS Intern</em><br>
       BS Biomedical Engineering<br>
-      Universitat de Barcelona
+      Universitat de Barcelona<br>
     </div>
   </div>
 </div>
-<h1 id="past-lab-members">past lab members</h1>
+<h2 id="past-lab-members">past lab members</h2>
 <div class="grid-members">
   <div class="lab-member">
     <strong>Clàudia Lozano</strong><br>
