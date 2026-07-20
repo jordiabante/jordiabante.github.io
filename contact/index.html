@@ -34,7 +34,8 @@
 
 </head>
 
-    <body><div class="container mt-5">
+    <body><div id="site-header">
+  <div class="container">
     <nav class="navbar navbar-expand-sm flex-column flex-sm-row p-0">
         <a class="navbar-brand mr-sm-auto d-flex align-items-center" href="/">
             abante lab @ ub
@@ -45,37 +46,37 @@
                 
                     <a class="nav-item nav-link" href="/">home</a>
                     
-                        <span class="nav-item navbar-text mx-1">/</span>
+                        <span class="nav-item navbar-text nav-sep mx-1">·</span>
                     
                 
                     <a class="nav-item nav-link" href="/bio">bio</a>
                     
-                        <span class="nav-item navbar-text mx-1">/</span>
+                        <span class="nav-item navbar-text nav-sep mx-1">·</span>
                     
                 
                     <a class="nav-item nav-link" href="/people">people</a>
                     
-                        <span class="nav-item navbar-text mx-1">/</span>
+                        <span class="nav-item navbar-text nav-sep mx-1">·</span>
                     
                 
                     <a class="nav-item nav-link" href="/publications">publications</a>
                     
-                        <span class="nav-item navbar-text mx-1">/</span>
+                        <span class="nav-item navbar-text nav-sep mx-1">·</span>
                     
                 
                     <a class="nav-item nav-link" href="/thesis">thesis</a>
                     
-                        <span class="nav-item navbar-text mx-1">/</span>
+                        <span class="nav-item navbar-text nav-sep mx-1">·</span>
                     
                 
                     <a class="nav-item nav-link" href="/news">news</a>
                     
-                        <span class="nav-item navbar-text mx-1">/</span>
+                        <span class="nav-item navbar-text nav-sep mx-1">·</span>
                     
                 
                     <a class="nav-item nav-link" href="/repos">repos</a>
                     
-                        <span class="nav-item navbar-text mx-1">/</span>
+                        <span class="nav-item navbar-text nav-sep mx-1">·</span>
                     
                 
                     <a class="nav-item nav-link" href="/contact">contact</a>
@@ -84,8 +85,42 @@
             
         </div>
     </nav>
+  </div>
 </div>
-<hr>
+
+<style>
+#site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #fff;
+  border-bottom: 1px solid #e8e8e8;
+  padding: 0.75rem 0;
+  transition: box-shadow 0.2s ease;
+}
+#site-header.scrolled {
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+.nav-link-active {
+  font-weight: 700 !important;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.nav-sep {
+  color: #bbb !important;
+  font-weight: 400;
+}
+</style>
+
+<script>
+(function () {
+  const header = document.getElementById('site-header');
+  if (!header) return;
+  window.addEventListener('scroll', function () {
+    header.classList.toggle('scrolled', window.scrollY > 10);
+  }, { passive: true });
+})();
+</script>
 <div id="content">
 <div class="container">
     <p><strong>email</strong>: jordi dot abante at ub dot edu</p>
