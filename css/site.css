@@ -1,0 +1,212 @@
+/* Shared design language for content pages (bio, people, contact, publications,
+   thesis, repos). Keep this file as the single source of truth for the
+   card / list / badge / timeline primitives used across content/*.md. */
+
+:root {
+  --accent: #dc3545;
+  --accent-dark: #c82333;
+  --card-bg: #fff;
+  --card-bg-muted: #f9f9f9;
+  --card-border: rgba(220, 53, 69, 0.18);
+  --card-border-muted: rgba(108, 117, 125, 0.16);
+  --card-shadow: 0 12px 28px rgba(0, 0, 0, 0.04);
+  --text-muted: #3a3a3a;
+}
+
+/* Boxed card: used for standalone items (people, contact, thesis entries,
+   the bio profile card). */
+.entry-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+  box-shadow: var(--card-shadow);
+  padding: 1.5rem;
+}
+.entry-card.muted {
+  background: var(--card-bg-muted);
+  border-color: var(--card-border-muted);
+}
+.entry-card h3,
+.entry-card h4 {
+  margin: 0 0 0.5rem;
+  font-size: 1.1rem;
+  color: var(--accent-dark);
+}
+.entry-card p {
+  margin: 0.25rem 0;
+  color: var(--text-muted);
+}
+.entry-card a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.entry-card a:hover {
+  text-decoration: underline;
+}
+
+/* Flat, left-accented row: used for dense lists (publications, repos).
+   Applies both to an explicit `.list-card` element and to markdown
+   paragraphs/list items generated inside a `.stack` wrapper, so plain
+   markdown (links, emphasis) keeps working without needing raw HTML.
+   Selectors are prefixed with #content to win specificity over the
+   theme's `#content ul > li { margin: 4px 0; }` rule. */
+#content .list-card,
+#content .stack > p,
+#content .stack > ul > li {
+  background: var(--card-bg);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 10px 10px 0;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.03);
+  padding: 0.75rem 1.1rem;
+  margin: 0;
+  list-style: none;
+  transition: border-color 0.15s ease;
+}
+#content .list-card:hover,
+#content .stack > p:hover,
+#content .stack > ul > li:hover {
+  border-left-color: var(--accent-dark);
+}
+#content .list-card p,
+#content .stack > p,
+#content .stack > ul > li {
+  color: var(--text-muted);
+}
+#content .list-card a,
+#content .stack > p a,
+#content .stack > ul > li a {
+  color: var(--accent);
+  text-decoration: none;
+}
+#content .list-card a:hover,
+#content .stack > p a:hover,
+#content .stack > ul > li a:hover {
+  text-decoration: underline;
+}
+
+
+/* Small accent pill, e.g. role labels, statuses. */
+.badge {
+  display: inline-block;
+  background: rgba(220, 53, 69, 0.12);
+  color: var(--accent-dark);
+  padding: 0.15rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+/* Layout helpers. */
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  margin: 1rem 0 2rem;
+}
+.stack > ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  margin: 0;
+  padding: 0;
+}
+.stack-lg {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin: 1rem 0 2rem;
+}
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem;
+  margin: 1rem 0 2rem;
+}
+
+/* Vertical timeline, used on the bio page. */
+.timeline {
+  position: relative;
+  margin: 1.5rem 0 2rem;
+  padding-left: 1.75rem;
+  border-left: 2px solid var(--card-border);
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+.timeline-item {
+  position: relative;
+}
+.timeline-item::before {
+  content: "";
+  position: absolute;
+  left: -2.02rem;
+  top: 0.3rem;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.timeline-year {
+  display: inline-block;
+  font-weight: 700;
+  color: var(--accent-dark);
+  font-size: 0.85rem;
+  margin-bottom: 0.25rem;
+}
+.timeline-item p {
+  margin: 0;
+  color: var(--text-muted);
+}
+
+/* Profile header, used on the bio page. */
+.profile-card {
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+  margin-bottom: 0.5rem;
+}
+.profile-card img {
+  width: 130px;
+  height: 130px;
+  min-width: 130px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 0;
+}
+.profile-card h2 {
+  margin: 0 0 0.35rem !important;
+  font-size: 1.3rem !important;
+}
+.profile-card p {
+  margin: 0.15rem 0;
+  color: var(--text-muted);
+}
+.affiliations {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.65rem;
+}
+.aff-tag {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--text-muted);
+  background: #f4f4f4;
+  border: 1px solid #e5e5e5;
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+}
+
+@media (max-width: 700px) {
+  .grid-2 {
+    grid-template-columns: 1fr;
+  }
+  .profile-card {
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+  }
+}

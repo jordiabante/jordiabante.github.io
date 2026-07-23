@@ -13,6 +13,7 @@
 
     
     <link rel="stylesheet" href="/sass/researcher.min.css">
+    <link rel="stylesheet" href="/css/site.css">
 
     
 
@@ -127,30 +128,14 @@
 .member-list {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
-  margin-bottom: 2.5rem;
+  gap: 1.5rem;
+  margin: 1rem 0 2.5rem;
 }
 
 .member-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1.5rem;
-  padding: 1.5rem;
-  border: 1px solid rgba(220, 53, 69, 0.18);
-  border-radius: 14px;
-  background: #fff;
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.04);
-}
-
-.member-row.alumni {
-  border-color: rgba(108, 117, 125, 0.16);
-  background: #f9f9f9;
-}
-
-.alumni-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1.5rem;
 }
 
@@ -161,17 +146,11 @@
 .member-details h3 {
   margin: 0 0 0.5rem;
   font-size: 1.2rem;
+  color: inherit;
 }
 
-.member-details p {
-  margin: 0.25rem 0;
-  color: #3a3a3a;
-}
-
-.member-details p.role {
-  margin-bottom: 1rem;
-  color: #c82333;
-  font-style: italic;
+.member-details .badge {
+  margin-bottom: 0.75rem;
 }
 
 .member-photo {
@@ -211,60 +190,60 @@
 </style>
 <h2 id="current-lab-members">current lab members</h2>
 <div class="member-list">
-  <div class="member-row">
+  <div class="entry-card member-row">
     <div class="member-details">
       <h3>Jordi Abante, PhD</h3>
-      <p class="role">Principal Investigator</p>
+      <p class="badge">Principal Investigator</p>
       <p>Department of Biomedicine<br>Universitat de Barcelona</p>
     </div>
     <div class="member-photo">
       <img src="/team/jordi_abante.png" alt="Jordi Abante">
     </div>
   </div>
-  <div class="member-row">
+  <div class="entry-card member-row">
     <div class="member-details">
       <h3>Berta Ros Blanco</h3>
-      <p class="role">PhD student (Fall 25 - now)</p>
+      <p class="badge">PhD student (Fall 25 - now)</p>
       <p>Department of Biomedicine<br>Universitat de Barcelona</p>
     </div>
     <div class="member-photo">
       <img src="/team/berta_ros.jpg" alt="Berta Ros Blanco">
     </div>
   </div>
-  <div class="member-row">
+  <div class="entry-card member-row">
     <div class="member-details">
       <h3>David Bonet</h3>
-      <p class="role">PhD student (Fall 25 - now)</p>
+      <p class="badge">PhD student (Fall 25 - now)</p>
       <p>Department of Biomedicine<br>Universitat de Barcelona<br>University of California Santa Cruz<br><em>(co-sup w/ A. Ioannidis, Stanford University)</em></p>
     </div>
     <div class="member-photo">
       <img src="/team/david_bonet.jpg" alt="David Bonet">
     </div>
   </div>
-  <div class="member-row">
+  <div class="entry-card member-row">
     <div class="member-details">
       <h3>David García Ortiz</h3>
-      <p class="role">Bachelor's Thesis (Fall 25 - now)</p>
+      <p class="badge">Bachelor's Thesis (Fall 25 - now)</p>
       <p>BS Biomedical Engineering<br>Universitat de Barcelona</p>
     </div>
     <div class="member-photo">
       <img src="/team/david_garcia.jpeg" alt="David García Ortiz">
     </div>
   </div>
-  <div class="member-row">
+  <div class="entry-card member-row">
     <div class="member-details">
       <h3>Riccardo Smeriglio</h3>
-      <p class="role">PhD secondment (Apr 26 - now)</p>
+      <p class="badge">PhD secondment (Apr 26 - now)</p>
       <p>Politecnico di Torino (Smilies lab)</p>
     </div>
     <div class="member-photo">
       <img src="/team/r_smeriglio.jpg" alt="Riccardo Smeriglio">
     </div>
   </div>
-  <div class="member-row">
+  <div class="entry-card member-row">
     <div class="member-details">
       <h3>Gabriel Peytral Borja</h3>
-      <p class="role">ERASMUS+ (Apr 26 - now)</p>
+      <p class="badge">ERASMUS+ (Apr 26 - now)</p>
       <p> MSc Applied Mathematics, Statistics<br>Aix-Marseille Université </p>
     </div>
     <div class="member-photo">
@@ -273,32 +252,32 @@
   </div>
 </div>
 <h2 id="alumni">alumni</h2>
-<div class="alumni-grid">
-  <div class="member-row alumni">
+<div class="grid-2">
+  <div class="entry-card muted member-row">
     <div class="member-details">
       <h3>Caterina Fuses i Kuzmina</h3>
-      <p class="role">BS Thesis (Spring 24), MS Thesis (Fall 25)</p>
+      <p class="badge">BS Thesis (Spring 24), MS Thesis (Fall 25)</p>
       <p>MS Foundations of Data Science<br>Universitat de Barcelona</p>
     </div>
   </div>
-  <div class="member-row alumni">
+  <div class="entry-card muted member-row">
     <div class="member-details">
       <h3>Zinnera Tariq</h3>
-      <p class="role">MS Thesis (Fall 25)</p>
+      <p class="badge">MS Thesis (Fall 25)</p>
       <p>MS Biomedical Data Science<br>Universitat de Barcelona</p>
     </div>
   </div>
-  <div class="member-row alumni">
+  <div class="entry-card muted member-row">
     <div class="member-details">
       <h3>Clàudia Lozano</h3>
-      <p class="role">BS Thesis (Spring 24)</p>
+      <p class="badge">BS Thesis (Spring 24)</p>
       <p>BS in Biomedical Engineering<br>Department of Biomedical Sciences<br>Universitat de Barcelona</p>
     </div>
   </div>
-  <div class="member-row alumni">
+  <div class="entry-card muted member-row">
     <div class="member-details">
       <h3>Joana Rosell</h3>
-      <p class="role">MS Thesis (Spring 23)</p>
+      <p class="badge">MS Thesis (Spring 23)</p>
       <p>MS in Biomedical Engineering<br>Department of Physics<br>Universitat de Barcelona</p>
     </div>
   </div>
