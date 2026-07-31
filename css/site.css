@@ -97,6 +97,33 @@
   letter-spacing: 0.02em;
 }
 
+/* Publication type tag: distinguishes journal / conference / preprint
+   entries without changing the shared accent (left border) used across
+   the site. Text label carries the meaning; color is a secondary cue. */
+.pub-tag {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  padding: 0.1rem 0.55rem;
+  border-radius: 999px;
+  margin-right: 0.55rem;
+  vertical-align: 1px;
+}
+.pub-tag--journal {
+  background: rgba(25, 135, 84, 0.12);
+  color: #146c43;
+}
+.pub-tag--conference {
+  background: rgba(13, 110, 253, 0.12);
+  color: #0b5ed7;
+}
+.pub-tag--preprint {
+  background: rgba(255, 193, 7, 0.16);
+  color: #a66a00;
+}
+
 /* Layout helpers. */
 .stack {
   display: flex;
