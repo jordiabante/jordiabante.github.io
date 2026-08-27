@@ -112,6 +112,28 @@
   color: #bbb !important;
   font-weight: 400;
 }
+ 
+#site-header .navbar-nav.flex-row {
+  flex-wrap: wrap;
+  justify-content: center;
+}
+@media (max-width: 767.98px) {
+  #site-header {
+    padding: 0.5rem 0;
+  }
+  #site-header .navbar-brand {
+    font-size: 1.6rem;
+    margin-right: 0;
+  }
+   
+  #site-header .navbar-nav .nav-link {
+    padding: 0.15rem 0.45rem;
+    font-size: 0.95rem;
+  }
+  #site-header .nav-sep {
+    display: none;
+  }
+}
 </style>
 
 <script>

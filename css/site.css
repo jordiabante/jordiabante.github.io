@@ -237,3 +237,71 @@
     text-align: left;
   }
 }
+
+/* ---------------------------------------------------------------------------
+   Mobile refinements. The layout is fluid down to phone widths, but the
+   desktop paddings and fixed image sizes waste a lot of a 375px screen, so
+   tighten them up below Bootstrap's sm breakpoint. */
+
+/* Long DOIs, URLs and identifiers must be allowed to break rather than push
+   the page wider than the viewport. */
+#content {
+  overflow-wrap: break-word;
+}
+
+@media (max-width: 575.98px) {
+  #content .container,
+  #site-header .container,
+  #footer .container {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .entry-card {
+    padding: 1.1rem;
+    border-radius: 12px;
+  }
+  /* The theme gives every heading a 1.2rem top margin, which reads as dead
+     space when the heading opens a card. */
+  #content .entry-card > :first-child,
+  #content .entry-card > div > :first-child {
+    margin-top: 0;
+  }
+  #content .list-card,
+  #content .stack > p,
+  #content .stack > ul > li {
+    padding: 0.7rem 0.9rem;
+  }
+
+  .stack {
+    gap: 0.75rem;
+  }
+  .stack > ul {
+    gap: 0.75rem;
+  }
+  .grid-2 {
+    gap: 1rem;
+  }
+
+  /* The timeline rail and its dots are sized for a roomy left margin. */
+  .timeline {
+    padding-left: 1.25rem;
+    gap: 1.35rem;
+  }
+  .timeline-item::before {
+    left: -1.52rem;
+  }
+
+  .profile-card {
+    gap: 1rem;
+  }
+  /* #content img centres every image, which leaves the avatar floating above
+     left-aligned text once the card stacks. */
+  #content .profile-card img {
+    width: 96px;
+    height: 96px;
+    min-width: 96px;
+    margin-left: 0;
+    margin-right: auto;
+  }
+}

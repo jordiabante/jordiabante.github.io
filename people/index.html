@@ -111,6 +111,28 @@
   color: #bbb !important;
   font-weight: 400;
 }
+ 
+#site-header .navbar-nav.flex-row {
+  flex-wrap: wrap;
+  justify-content: center;
+}
+@media (max-width: 767.98px) {
+  #site-header {
+    padding: 0.5rem 0;
+  }
+  #site-header .navbar-brand {
+    font-size: 1.6rem;
+    margin-right: 0;
+  }
+   
+  #site-header .navbar-nav .nav-link {
+    padding: 0.15rem 0.45rem;
+    font-size: 0.95rem;
+  }
+  #site-header .nav-sep {
+    display: none;
+  }
+}
 </style>
 
 <script>
@@ -185,6 +207,53 @@
 
   .member-photo img {
     height: auto;
+  }
+}
+
+/* On a phone the full-bleed portrait above makes every card about a screen
+   tall, so the team becomes a very long scroll. Go back to a row, with a
+   thumbnail small enough to sit next to the name. */
+@media (max-width: 767.98px) {
+  .member-row {
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  /* Without min-width:0 the text column refuses to shrink below its
+     min-content width and shoves the thumbnail out of the card. */
+  .member-details {
+    min-width: 0;
+  }
+
+  .member-details .badge {
+    white-space: normal;
+    text-align: left;
+    font-size: 0.7rem;
+  }
+
+  .member-photo {
+    flex: 0 0 88px;
+    width: 88px;
+    min-width: 88px;
+    height: 88px;
+  }
+
+  .member-photo img {
+    width: 100%;
+    min-width: 0;
+    height: 100%;
+  }
+
+  /* The theme's `#content h1..h6` margin outranks `.member-details h3` and
+     adds an unwanted 1.2rem above every name. */
+  #content .member-details h3 {
+    margin: 0 0 0.4rem;
+    font-size: 1.05rem;
+  }
+
+  .member-details p {
+    font-size: 0.9rem;
   }
 }
 </style>
