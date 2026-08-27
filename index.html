@@ -8,14 +8,14 @@
 
     <title>abante lab @ ub</title>
     <base href="https://jordiabante.github.io/">
-    <meta name="description" content="machine learning &amp; biological discovery">
+    <meta name="description" content="The Abante lab at the Universitat de Barcelona develops machine learning and probabilistic methods linking genetic variation to biological function.">
     <meta name="author" content='Jordi Abante'>
     <link rel="canonical" href="https://jordiabante.github.io/">
 
     
     <meta property="og:site_name" content="abante lab @ ub">
     <meta property="og:title" content="abante lab @ ub">
-    <meta property="og:description" content="machine learning &amp; biological discovery">
+    <meta property="og:description" content="The Abante lab at the Universitat de Barcelona develops machine learning and probabilistic methods linking genetic variation to biological function.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://jordiabante.github.io/">
     <meta property="og:locale" content="en_US">
@@ -26,7 +26,7 @@
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="abante lab @ ub">
-    <meta name="twitter:description" content="machine learning &amp; biological discovery">
+    <meta name="twitter:description" content="The Abante lab at the Universitat de Barcelona develops machine learning and probabilistic methods linking genetic variation to biological function.">
     <meta name="twitter:image" content="https://jordiabante.github.io/logos/lab_hu_6ce1210496e5d07d.png">
 
     
@@ -369,7 +369,8 @@
     </div>
     <div class="latest-news-controls">
       <button id="latest-news-prev" type="button">← Previous</button>
-      <span id="latest-news-page"></span>
+      <button id="latest-news-play" type="button" aria-pressed="false">⏸ Pause</button>
+      <span id="latest-news-page" aria-live="polite"></span>
       <button id="latest-news-next" type="button">Next →</button>
     </div>
   </div>
@@ -489,64 +490,84 @@
 
 <script>
 (function () {
+  const carousel = document.querySelector('.latest-news-carousel');
   const cards = Array.from(document.querySelectorAll('#latest-news .news-card'));
-  if (!cards.length) return;
+  if (!carousel || !cards.length) return;
 
   const pageSize = 3;
   const pageCount = Math.ceil(cards.length / pageSize);
-  let currentPage = 0;
-
   const prevButton = document.getElementById('latest-news-prev');
   const nextButton = document.getElementById('latest-news-next');
+  const playButton = document.getElementById('latest-news-play');
   const pageLabel = document.getElementById('latest-news-page');
-
   const progressBar = document.getElementById('latest-news-progress-bar');
-  let progress = 0;
-  let progressInterval = null;
-  let autoPageTimeout = null;
+
   const intervalMs = 10000;
-  const progressStep = 100; 
+  const stepMs = 100;
+
+  let currentPage = 0;
+  let elapsed = 0;
+  
+  
+  let paused = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let held = false;   
+
+  function advancing() {
+    return !paused && !held && pageCount > 1;
+  }
 
   function renderPage() {
-    cards.forEach((card, index) => {
+    cards.forEach(function (card, index) {
       const visible = index >= currentPage * pageSize && index < (currentPage + 1) * pageSize;
       card.style.display = visible ? 'block' : 'none';
     });
-    pageLabel.textContent = `Page ${currentPage + 1} of ${pageCount}`;
-    resetProgressBar();
+    pageLabel.textContent = 'Page ' + (currentPage + 1) + ' of ' + pageCount;
   }
 
-  function setPage(newPage) {
-    currentPage = (newPage + pageCount) % pageCount;
+  function drawProgress() {
+    progressBar.style.width = Math.min(100, (elapsed / intervalMs) * 100) + '%';
+  }
+
+  function setPage(next) {
+    currentPage = (next + pageCount) % pageCount;
+    elapsed = 0;
     renderPage();
+    drawProgress();
   }
 
-  function resetProgressBar() {
-    if (progressInterval) clearInterval(progressInterval);
-    if (autoPageTimeout) clearTimeout(autoPageTimeout);
-    progress = 0;
-    progressBar.style.width = '0%';
-    progressInterval = setInterval(() => {
-      progress += progressStep;
-      const percent = Math.min(100, (progress / intervalMs) * 100);
-      progressBar.style.width = percent + '%';
-      if (progress >= intervalMs) {
-        clearInterval(progressInterval);
-      }
-    }, progressStep);
-    autoPageTimeout = setTimeout(() => {
+  function setPaused(value) {
+    paused = value;
+    playButton.setAttribute('aria-pressed', value ? 'true' : 'false');
+    playButton.textContent = value ? '▶ Play' : '⏸ Pause';
+    if (value) {
+      elapsed = 0;
+      drawProgress();
+    }
+  }
+
+  setInterval(function () {
+    if (!advancing()) return;        
+    elapsed += stepMs;
+    if (elapsed >= intervalMs) {
       setPage(currentPage + 1);
-    }, intervalMs);
-  }
+      return;
+    }
+    drawProgress();
+  }, stepMs);
 
-  prevButton.addEventListener('click', () => {
-    setPage(currentPage - 1);
-  });
-  nextButton.addEventListener('click', () => {
-    setPage(currentPage + 1);
-  });
+  carousel.addEventListener('mouseenter', function () { held = true; });
+  carousel.addEventListener('mouseleave', function () { held = false; });
+  carousel.addEventListener('focusin', function () { held = true; });
+  carousel.addEventListener('focusout', function () { held = false; });
 
+  
+  prevButton.addEventListener('click', function () { setPaused(true); setPage(currentPage - 1); });
+  nextButton.addEventListener('click', function () { setPaused(true); setPage(currentPage + 1); });
+  playButton.addEventListener('click', function () { setPaused(!paused); });
+
+  setPaused(paused);
   renderPage();
+  drawProgress();
 })();
 </script>
 
