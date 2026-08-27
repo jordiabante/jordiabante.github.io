@@ -361,22 +361,12 @@ summary:focus-visible,
   line-height: 1.6;
 }
 
-/* Measure. Body prose ran the full 970px of the container, about 120
-   characters per line against a comfortable 60-80. `ch` is exact here because
-   the face is monospaced: 75ch is 75 characters.
-   Scoped to top-level prose on purpose. Cards and grids are already narrower
-   than this, and capping text inside a full-width card would leave the box
-   half empty. */
-#content > .container > p,
-#content > .container > ul,
-#content > .container > ol,
-#content > .container > blockquote,
-.timeline-item p,
-.news-single-body p,
-.news-single-body ul,
-.news-single-body ol {
-  max-width: 75ch;
-}
+/* No measure cap. Capping prose at 75ch left it ending 370px short of the
+   cards and grids beside it, so the page lost its right edge and the gap read
+   as a mistake. With a 1000px frame and a monospaced face you cannot have both
+   a comfortable measure and a single edge — narrowing the text alone is what
+   looks wrong. Leading and heading scale below carry most of the readability
+   benefit anyway. */
 
 /* Heading scale. The theme's steps were 1.8 / 1.6 / 1.4 / 1.2rem — about 12%
    apart, which is too little to scan by. Widen the gaps and give a section
