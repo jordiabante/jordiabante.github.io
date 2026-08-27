@@ -42,21 +42,22 @@
 
     
 
+    <script>
+(function () {
+  if (!document.cookie) return;
+  var host = location.hostname;
+  document.cookie.split(';').forEach(function (pair) {
+    var name = pair.split('=')[0].trim();
+    if (name.indexOf('_ga') !== 0) return;
     
-      <script async src="https://www.googletagmanager.com/gtag/js?id=G-89HPQD1XYK"></script>
-      <script>
-        var doNotTrack = false;
-        if ( true ) {
-          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
-          var doNotTrack = (dnt == "1" || dnt == "yes");
-        }
-        if (!doNotTrack) {
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', 'G-89HPQD1XYK');
-        }
-      </script>
+
+    ['', '; domain=' + host, '; domain=.' + host].forEach(function (domain) {
+      document.cookie = name + '=; Max-Age=0; path=/' + domain;
+    });
+  });
+})();
+</script>
+
 
 </head>
 
@@ -442,8 +443,28 @@
                     </div>
                 </div>
             </div>
+            
+            <div class="row">
+                <div class="col-12">
+                    <div class="text-center footer-links">
+                        <small><a href="/privacy">privacy</a></small>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+    <style>
+      .footer-links {
+        margin-top: 0.75rem;
+      }
+      .footer-links a {
+        color: #6c757d !important;
+      }
+      .footer-links a:hover {
+        color: #c82333 !important;
+        text-decoration: underline;
+      }
+    </style>
 
 
 </body>
