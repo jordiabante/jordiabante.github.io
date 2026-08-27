@@ -281,9 +281,21 @@
 </script>
 <div id="content">
 <div class="container">
-  <h1>news</h1>
-  <p><p>A list of the most recent lab updates, publications, and announcements.</p>
-</p>
+  <div class="news-header">
+    <h1>news</h1>
+    
+      <a class="news-feed-link" href="/news/index.xml" type="application/rss+xml" title="Subscribe to lab news">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+          <circle cx="6.18" cy="17.82" r="2.18"/>
+          <path d="M4 4.44v2.83c7.03 0 12.73 5.7 12.73 12.73h2.83c0-8.59-6.97-15.56-15.56-15.56z"/>
+          <path d="M4 10.1v2.83c3.9 0 7.07 3.17 7.07 7.07h2.83c0-5.47-4.43-9.9-9.9-9.9z"/>
+        </svg>
+        <span>RSS</span>
+      </a>
+    
+  </div>
+  <p>A list of the most recent lab updates, publications, and announcements.</p>
+
 
   <div class="news-list">
     
@@ -397,6 +409,32 @@
 </div>
 
 <style>
+.news-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.news-header h1 {
+  margin: 0;
+}
+.news-feed-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #c82333;
+  text-decoration: none;
+  border: 1px solid rgba(220, 53, 69, 0.35);
+  border-radius: 999px;
+  padding: 0.25rem 0.75rem;
+}
+.news-feed-link:hover {
+  background: rgba(220, 53, 69, 0.08);
+  text-decoration: none;
+}
 .news-list {
   margin-top: 2rem;
   display: flex;
