@@ -193,7 +193,10 @@
   gap: 1.75rem;
   margin-bottom: 0.5rem;
 }
-.profile-card img {
+/* `#content img { margin: 16px auto }` in the theme outranks a plain
+   `.profile-card img`, so the avatar drifted to the centre of its flex share
+   instead of sitting against the text. Match the ID to win. */
+#content .profile-card img {
   width: 130px;
   height: 130px;
   min-width: 130px;
@@ -345,4 +348,65 @@ summary:focus-visible,
 #content h6 a:not([class]),
 #content .contact-social a:not([class]) {
   text-decoration: none;
+}
+
+/* ---------------------------------------------------------------------------
+   Reading measure and heading scale, August 2026. */
+
+/* Leading. The theme sets `* { line-height: normal }`, about 1.2, which is
+   fine for a heading and tight for a paragraph. */
+#content p,
+#content li,
+#content dd {
+  line-height: 1.6;
+}
+
+/* Measure. Body prose ran the full 970px of the container, about 120
+   characters per line against a comfortable 60-80. `ch` is exact here because
+   the face is monospaced: 75ch is 75 characters.
+   Scoped to top-level prose on purpose. Cards and grids are already narrower
+   than this, and capping text inside a full-width card would leave the box
+   half empty. */
+#content > .container > p,
+#content > .container > ul,
+#content > .container > ol,
+#content > .container > blockquote,
+.timeline-item p,
+.news-single-body p,
+.news-single-body ul,
+.news-single-body ol {
+  max-width: 75ch;
+}
+
+/* Heading scale. The theme's steps were 1.8 / 1.6 / 1.4 / 1.2rem — about 12%
+   apart, which is too little to scan by. Widen the gaps and give a section
+   heading more room above it than below, so it groups with what follows.
+   Scoped to `> .container >` so headings inside cards keep their own sizes. */
+#content > .container > h1,
+.news-single-header h1 {
+  font-size: 2.1rem;
+  margin-bottom: 1rem;
+}
+#content > .container > h2 {
+  font-size: 1.6rem;
+  margin-top: 2.5rem;
+  margin-bottom: 0.9rem;
+}
+#content > .container > h3 {
+  font-size: 1.25rem;
+  margin-top: 1.9rem;
+  margin-bottom: 0.6rem;
+}
+#content > .container > h4 {
+  font-size: 1.05rem;
+  margin-top: 1.5rem;
+}
+
+/* Narrower lines mean bullets wrap more often, which exposed the theme's
+   `list-style: inside`: the second line of an item started under the bullet
+   instead of under the text. Hang the marker outside instead. */
+#content > .container > ul,
+#content > .container > ol {
+  list-style-position: outside;
+  padding-left: 1.15rem;
 }
