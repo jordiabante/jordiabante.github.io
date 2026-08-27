@@ -70,6 +70,12 @@
             cursor: pointer;
           }
           .copy-btn:hover { background: rgba(220, 53, 69, 0.08); }
+          .copy-btn:focus-visible,
+          a:focus-visible {
+            outline: 2px solid var(--accent-dark);
+            outline-offset: 2px;
+            border-radius: 4px;
+          }
           .item {
             border-left: 3px solid var(--accent-dark);
             border-radius: 0 8px 8px 0;

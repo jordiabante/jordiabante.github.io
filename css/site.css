@@ -305,3 +305,44 @@
     margin-right: auto;
   }
 }
+
+/* ---------------------------------------------------------------------------
+   Accessibility fixes, August 2026. */
+
+/* Keyboard focus was invisible across the whole site: between the theme and
+   Bootstrap, nothing drew an outline, so someone tabbing through had no way to
+   tell what was selected. :focus-visible keeps it off for mouse clicks. */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+summary:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--accent-dark);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Links in prose were marked by colour alone, which a reader with a colour
+   vision deficiency cannot see. Underline them.
+   The `:not([class])` is what scopes this to prose: every component link on the
+   site (read-more, permalink, feed pill) carries a class and keeps its own
+   styling. Headings and icon links are excluded below — they are already
+   unmistakable, and an underline under an icon just looks broken.
+   Those exclusions repeat `:not([class])` deliberately: without it they are less
+   specific than the rule above and would lose. */
+#content a:not([class]) {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1px;
+}
+#content h1 a:not([class]),
+#content h2 a:not([class]),
+#content h3 a:not([class]),
+#content h4 a:not([class]),
+#content h5 a:not([class]),
+#content h6 a:not([class]),
+#content .contact-social a:not([class]) {
+  text-decoration: none;
+}
