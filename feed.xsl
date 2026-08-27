@@ -41,16 +41,35 @@
           }
           .notice h2 { font-size: 1.05rem; margin: 0 0 0.5rem; color: var(--accent-dark); }
           .notice p { margin: 0.4rem 0; }
+          .feed-url-row {
+            display: flex;
+            align-items: stretch;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+            flex-wrap: wrap;
+          }
           .feed-url {
-            display: block;
+            flex: 1 1 260px;
+            min-width: 0;
             background: #f7f7f7;
             border: 1px solid #e5e5e5;
             border-radius: 8px;
             padding: 0.6rem 0.8rem;
-            margin-top: 0.75rem;
             word-break: break-all;
             font-size: 0.9rem;
           }
+          .copy-btn {
+            font-family: inherit;
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: var(--accent-dark);
+            background: transparent;
+            border: 1px solid rgba(220, 53, 69, 0.35);
+            border-radius: 8px;
+            padding: 0.4rem 0.95rem;
+            cursor: pointer;
+          }
+          .copy-btn:hover { background: rgba(220, 53, 69, 0.08); }
           .item {
             border-left: 3px solid var(--accent-dark);
             border-radius: 0 8px 8px 0;
@@ -70,17 +89,50 @@
         <p class="tagline"><xsl:value-of select="/rss/channel/description"/></p>
 
         <div class="notice">
-          <h2>This is an RSS feed</h2>
-          <p>It is meant for a feed reader, not for reading directly. Paste the
-          address below into one and you will get lab news as it is posted,
-          without having to check back.</p>
-          <code class="feed-url">
-            <xsl:value-of select="/rss/channel/atom:link[@rel='self']/@href"/>
-          </code>
+          <h2>Add this address to your feed reader</h2>
+          <p>You will then get lab news as it is posted, without having to check
+          back. This page is an RSS feed: it is meant for a reader such as
+          Feedly, Inoreader, NetNewsWire or Thunderbird, not for reading in a
+          browser.</p>
+          <div class="feed-url-row">
+            <code class="feed-url" id="feed-url">
+              <xsl:value-of select="/rss/channel/atom:link[@rel='self']/@href"/>
+            </code>
+            <button class="copy-btn" id="copy" type="button">copy</button>
+          </div>
           <p>
             <a class="back" href="{/rss/channel/link}">← back to the site</a>
           </p>
         </div>
+        <script>
+          document.getElementById('copy').addEventListener('click', function () {
+            var button = this;
+            var el = document.getElementById('feed-url');
+            function flash(label) {
+              button.textContent = label;
+              setTimeout(function () { button.textContent = 'copy'; }, 1500);
+            }
+            /* The clipboard API is refused in plenty of ordinary situations, and
+               a button that silently does nothing is worse than no button, so
+               fall back to selecting the address for the reader to copy. */
+            function selectAddress() {
+              var range = document.createRange();
+              range.selectNodeContents(el);
+              var sel = window.getSelection();
+              sel.removeAllRanges();
+              sel.addRange(range);
+              flash('selected');
+            }
+            if (navigator.clipboard &amp;&amp; navigator.clipboard.writeText) {
+              navigator.clipboard.writeText(el.textContent.trim()).then(
+                function () { flash('copied'); },
+                selectAddress
+              );
+            } else {
+              selectAddress();
+            }
+          });
+        </script>
 
         <xsl:for-each select="/rss/channel/item">
           <div class="item">
