@@ -38,11 +38,16 @@
 
     <body><div id="site-header">
   <div class="container">
-    <nav class="navbar navbar-expand-sm flex-column flex-sm-row p-0">
-        <a class="navbar-brand mr-sm-auto d-flex align-items-center" href="/">
+    <nav class="navbar navbar-expand-lg p-0">
+        <a class="navbar-brand mr-auto d-flex align-items-center" href="/">
             abante lab @ ub
         </a>
-        <div class="navbar-nav flex-row">
+        <button id="nav-toggle" class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="site-menu">
+            <span class="nav-toggle-bar"></span>
+            <span class="nav-toggle-bar"></span>
+            <span class="nav-toggle-bar"></span>
+        </button>
+        <div class="navbar-nav" id="site-menu">
             
                 
                 
@@ -113,25 +118,93 @@
   font-weight: 400;
 }
  
-#site-header .navbar-nav.flex-row {
+#site-menu {
+  flex-direction: row;
   flex-wrap: wrap;
+  align-items: center;
   justify-content: center;
 }
-@media (max-width: 767.98px) {
-  #site-header {
-    padding: 0.5rem 0;
-  }
-  #site-header .navbar-brand {
-    font-size: 1.6rem;
-    margin-right: 0;
+
+ 
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 42px;
+  height: 36px;
+  padding: 0 8px;
+  background: transparent;
+  border: 1px solid rgba(220, 53, 69, 0.35);
+  border-radius: 8px;
+  cursor: pointer;
+}
+.nav-toggle-bar {
+  display: block;
+  width: 100%;
+  height: 2px;
+  border-radius: 2px;
+  background: #c82333;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+ 
+.nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(2) {
+  opacity: 0;
+}
+.nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+@media (max-width: 991.98px) {
+  .nav-toggle {
+    display: flex;
   }
    
-  #site-header .navbar-nav .nav-link {
-    padding: 0.15rem 0.45rem;
-    font-size: 0.95rem;
+  #site-menu {
+    flex-basis: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    max-height: 0;
+    visibility: hidden;
+    overflow: hidden;
+    transition: max-height 0.25s ease, visibility 0.25s ease;
   }
-  #site-header .nav-sep {
+  #site-menu.open {
+    max-height: 70vh;
+    visibility: visible;
+    margin-top: 0.4rem;
+  }
+  #site-menu .nav-link {
+    padding: 0.55rem 0.25rem;
+    font-size: 1.05rem;
+    border-bottom: 1px solid #f1f1f1;
+  }
+  #site-menu .nav-link:last-of-type {
+    border-bottom: 0;
+  }
+   
+  #site-menu .nav-sep {
     display: none;
+  }
+}
+
+@media (max-width: 575.98px) {
+  #site-header {
+    padding: 0.6rem 0;
+  }
+  #site-header .navbar-brand {
+    font-size: 1.5rem;
+    margin-right: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #site-menu,
+  .nav-toggle-bar {
+    transition: none;
   }
 }
 </style>
@@ -139,10 +212,45 @@
 <script>
 (function () {
   const header = document.getElementById('site-header');
-  if (!header) return;
-  window.addEventListener('scroll', function () {
-    header.classList.toggle('scrolled', window.scrollY > 10);
-  }, { passive: true });
+  if (header) {
+    window.addEventListener('scroll', function () {
+      header.classList.toggle('scrolled', window.scrollY > 10);
+    }, { passive: true });
+  }
+
+  const toggle = document.getElementById('nav-toggle');
+  const menu = document.getElementById('site-menu');
+  if (!toggle || !menu) return;
+
+  function setOpen(open) {
+    menu.classList.toggle('open', open);
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  }
+
+  toggle.addEventListener('click', function () {
+    setOpen(!menu.classList.contains('open'));
+  });
+
+  
+  
+  menu.addEventListener('click', function (event) {
+    if (event.target.closest('a')) setOpen(false);
+  });
+
+  document.addEventListener('keydown', function (event) {
+    if (event.key === 'Escape' && menu.classList.contains('open')) {
+      setOpen(false);
+      toggle.focus();
+    }
+  });
+
+  
+  
+  const wide = window.matchMedia('(min-width: 992px)');
+  wide.addEventListener('change', function (event) {
+    if (event.matches) setOpen(false);
+  });
 })();
 </script>
 <div id="content">
