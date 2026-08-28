@@ -85,6 +85,27 @@
 }
 
 
+/* Content figure: an image through the `figure` shortcode, with its caption.
+   The theme centres every `#content img` and gives it a 16px margin, so the
+   sizing here has to match on #content to win. */
+#content .content-figure {
+  margin: 1.5rem 0 2rem;
+}
+#content .content-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0;
+  border-radius: 12px;
+  box-shadow: var(--card-shadow);
+}
+#content .content-figure figcaption {
+  margin-top: 0.65rem;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: #4a4a4a;
+}
+
 /* Small accent pill, e.g. role labels, statuses. */
 .badge {
   display: inline-block;
@@ -371,23 +392,30 @@ summary:focus-visible,
 /* Heading scale. The theme's steps were 1.8 / 1.6 / 1.4 / 1.2rem — about 12%
    apart, which is too little to scan by. Widen the gaps and give a section
    heading more room above it than below, so it groups with what follows.
-   Scoped to `> .container >` so headings inside cards keep their own sizes. */
+   Scoped to `> .container >` so headings inside cards keep their own sizes.
+   A news item's body sits one level deeper, inside `.news-single-body`, so it
+   is listed alongside — most items are a paragraph with no headings at all, but
+   a long one (an open position, say) needs the same scale as the rest of the
+   site rather than the theme's flatter one. */
 #content > .container > h1,
 .news-single-header h1 {
   font-size: 2.1rem;
   margin-bottom: 1rem;
 }
-#content > .container > h2 {
+#content > .container > h2,
+#content .news-single-body > h2 {
   font-size: 1.6rem;
   margin-top: 2.5rem;
   margin-bottom: 0.9rem;
 }
-#content > .container > h3 {
+#content > .container > h3,
+#content .news-single-body > h3 {
   font-size: 1.25rem;
   margin-top: 1.9rem;
   margin-bottom: 0.6rem;
 }
-#content > .container > h4 {
+#content > .container > h4,
+#content .news-single-body > h4 {
   font-size: 1.05rem;
   margin-top: 1.5rem;
 }
@@ -396,7 +424,9 @@ summary:focus-visible,
    `list-style: inside`: the second line of an item started under the bullet
    instead of under the text. Hang the marker outside instead. */
 #content > .container > ul,
-#content > .container > ol {
+#content > .container > ol,
+#content .news-single-body > ul,
+#content .news-single-body > ol {
   list-style-position: outside;
   padding-left: 1.15rem;
 }
