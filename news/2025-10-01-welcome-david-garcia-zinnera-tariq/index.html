@@ -72,6 +72,7 @@
   <div class="container">
     <nav class="navbar navbar-expand-lg p-0">
         <a class="navbar-brand mr-auto d-flex align-items-center" href="/">
+            <img class="brand-icon" src="/logos/icon-light_hu_7d5314ba271c5e45.webp" width="48" height="48" alt="" aria-hidden="true">
             abante lab @ ub
         </a>
         <button id="nav-toggle" class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="site-menu">
@@ -145,6 +146,12 @@
 #site-header.scrolled {
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
 }
+.brand-icon {
+  width: 1em;
+  height: 1em;
+  margin-right: 0.3em;
+  flex-shrink: 0;
+}
 .nav-link-active {
   font-weight: 700 !important;
   text-decoration: underline;
@@ -155,6 +162,13 @@
   font-weight: 400;
 }
  
+ 
+@media (min-width: 992px) {
+  #site-menu .nav-link {
+    padding-left: 0.4rem;
+    padding-right: 0.4rem;
+  }
+}
 #site-menu {
   flex-direction: row;
   flex-wrap: wrap;
