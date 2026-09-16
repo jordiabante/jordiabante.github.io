@@ -99,6 +99,10 @@
   border-radius: 12px;
   box-shadow: var(--card-shadow);
 }
+#content .content-figure.plain img {
+  border-radius: 0;
+  box-shadow: none;
+}
 #content .content-figure figcaption {
   margin-top: 0.65rem;
   font-size: 0.88rem;
