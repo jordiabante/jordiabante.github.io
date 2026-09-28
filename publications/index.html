@@ -37,6 +37,9 @@
     <link rel="stylesheet" href="/css/inconsolata.css">
 
     
+    <link rel="stylesheet" href="/css/tokens.css">
+
+    
     <link rel="stylesheet" href="/sass/researcher.min.css">
     <link rel="stylesheet" href="/css/site.css">
 
@@ -129,147 +132,6 @@
   </div>
 </div>
 
-<style>
-#site-header {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background: #fff;
-  border-bottom: 1px solid #e8e8e8;
-  padding: 0.75rem 0;
-  transition: box-shadow 0.2s ease;
-}
-#site-header.scrolled {
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-}
-.brand-icon {
-  width: 1em;
-  height: 1em;
-  margin-right: 0.3em;
-  flex-shrink: 0;
-}
- 
-#site-header .navbar-brand:hover {
-  text-decoration: none;
-}
-#site-menu .nav-link {
-  border-radius: 6px;
-  transition: background-color 0.15s ease, color 0.15s ease;
-}
-#site-menu .nav-link:hover {
-  color: var(--accent-dark);
-  background-color: rgba(220, 53, 69, 0.07);
-  text-decoration: none;
-}
-#site-menu .nav-link-active,
-#site-menu .nav-link-active:hover {
-  color: var(--accent-dark);
-  background-color: rgba(220, 53, 69, 0.11);
-  font-weight: 700;
-}
-.nav-sep {
-  color: #bbb !important;
-  font-weight: 400;
-}
- 
- 
-@media (min-width: 992px) {
-  #site-menu .nav-link {
-    padding-left: 0.4rem;
-    padding-right: 0.4rem;
-  }
-}
-#site-menu {
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-}
-
- 
-.nav-toggle {
-  display: none;
-  flex-direction: column;
-  justify-content: center;
-  gap: 5px;
-  width: 42px;
-  height: 36px;
-  padding: 0 8px;
-  background: transparent;
-  border: 1px solid rgba(220, 53, 69, 0.35);
-  border-radius: 8px;
-  cursor: pointer;
-}
-.nav-toggle-bar {
-  display: block;
-  width: 100%;
-  height: 2px;
-  border-radius: 2px;
-  background: #c82333;
-  transition: transform 0.2s ease, opacity 0.2s ease;
-}
- 
-.nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(1) {
-  transform: translateY(7px) rotate(45deg);
-}
-.nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(2) {
-  opacity: 0;
-}
-.nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(3) {
-  transform: translateY(-7px) rotate(-45deg);
-}
-
-@media (max-width: 991.98px) {
-  .nav-toggle {
-    display: flex;
-  }
-   
-  #site-menu {
-    flex-basis: 100%;
-    flex-direction: column;
-    align-items: stretch;
-    max-height: 0;
-    visibility: hidden;
-    overflow: hidden;
-    transition: max-height 0.25s ease, visibility 0.25s ease;
-  }
-  #site-menu.open {
-    max-height: 70vh;
-    visibility: visible;
-    margin-top: 0.4rem;
-  }
-  #site-menu .nav-link {
-    padding: 0.55rem 0.6rem;
-    font-size: 1.05rem;
-    border-bottom: 1px solid #f1f1f1;
-  }
-  #site-menu .nav-link:last-of-type {
-    border-bottom: 0;
-  }
-   
-  #site-menu .nav-sep {
-    display: none;
-  }
-}
-
-@media (max-width: 575.98px) {
-  #site-header {
-    padding: 0.6rem 0;
-  }
-  #site-header .navbar-brand {
-    font-size: 1.5rem;
-    margin-right: 0;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  #site-menu,
-  #site-menu .nav-link,
-  .nav-toggle-bar {
-    transition: none;
-  }
-}
-</style>
 
 <script>
 (function () {
@@ -633,78 +495,6 @@
   </div>
 </div><script type="application/ld+json">{"@context":"https://schema.org","@type":"ItemList","itemListElement":[{"@type":"ScholarlyArticle","author":[{"@type":"Person","name":"D. Bonet"},{"@type":"Person","name":"M. Comajoan Cara"},{"@type":"Person","name":"M. Barrabés"},{"@type":"Person","name":"R. Smeriglio"},{"@type":"Person","name":"D. Agrawal"},{"@type":"Person","name":"K. Aounallah"},{"@type":"Person","name":"M. Geleta"},{"@type":"Person","name":"A. Dominguez Mantes"},{"@type":"Person","name":"C. Thomassin"},{"@type":"Person","name":"C. Shanks"},{"@type":"Person","name":"E. C. Huang"},{"@type":"Person","name":"M. Franquesa Monés"},{"@type":"Person","name":"A. Luis"},{"@type":"Person","name":"J. Saurina"},{"@type":"Person","name":"M. Perera"},{"@type":"Person","name":"C. López"},{"@type":"Person","name":"B. Oriol Sabat"},{"@type":"Person","name":"J. Abante"},{"@type":"Person","name":"S. Moreno-Grau"},{"@type":"Person","name":"D. Mas Montserrat"},{"@type":"Person","name":"A. G. Ioannidis"}],"datePublished":"2026","headline":"snputils: A High-Performance Python Library for Genetic Variation and Population Structure","identifier":"https://doi.org/10.64898/2026.02.28.708618"},{"@type":"ScholarlyArticle","author":[{"@type":"Person","name":"D. Bonet"},{"@type":"Person","name":"C. Shanks"},{"@type":"Person","name":"M. Comajoan Cara"},{"@type":"Person","name":"J. Abante"},{"@type":"Person","name":"A. Ioannidis"}],"datePublished":"2026","headline":"ARGformer: learning on ancestral recombination graphs with transformers","identifier":"https://doi.org/10.1093/bioinformatics/btag438","url":"https://doi.org/10.1093/bioinformatics/btag438"},{"@type":"ScholarlyArticle","author":[{"@type":"Person","name":"B. Ros"},{"@type":"Person","name":"M. Olives-Verger"},{"@type":"Person","name":"C. Fuses"},{"@type":"Person","name":"J. M. Canals"},{"@type":"Person","name":"J. Soriano"},{"@type":"Person","name":"J. Abante"}],"datePublished":"2026","headline":"Integration of Calcium Imaging Traces via Deep Generative Modeling","identifier":"https://doi.org/10.1109/ICASSP55912.2026.11464071","url":"https://ieeexplore.ieee.org/document/11464071"},{"@type":"ScholarlyArticle","author":[{"@type":"Person","name":"R. Smeriglio"},{"@type":"Person","name":"S. Moreno-Grau"},{"@type":"Person","name":"D. Mas Montserrat"},{"@type":"Person","name":"G. Venkataraman"},{"@type":"Person","name":"D. Bonet"},{"@type":"Person","name":"C. Fuses"},{"@type":"Person","name":"M. A. Rivas"},{"@type":"Person","name":"A. Savino"},{"@type":"Person","name":"S. Di Carlo"},{"@type":"Person","name":"J. Abante"},{"@type":"Person","name":"A. G. Ioannidis"}],"datePublished":"2026","headline":"Multi-ancestry admixture mapping reveals ancestry-associated disease loci in the UK Biobank","identifier":"https://doi.org/10.64898/2026.08.06.26359859","url":"https://doi.org/10.64898/2026.08.06.26359859"},{"@type":"ScholarlyArticle","author":[{"@type":"Person","name":"C. Fuses"},{"@type":"Person","name":"G. Zavou"},{"@type":"Person","name":"B. Ros"},{"@type":"Person","name":"J.M. Canals"},{"@type":"Person","name":"J. Abante"}],"datePublished":"2025","headline":"Context-Dependent Genetic Modifiers of Huntington’s Disease Revealed through Multimodal Machine Learning","url":"https://proceedings.mlr.press/v311/abante25a.html"},{"@type":"ScholarlyArticle","author":[{"@type":"Person","name":"F. J. Molina-Ruiz"},{"@type":"Person","name":"P. Sanders"},{"@type":"Person","name":"C. Gomis"},{"@type":"Person","name":"J. Abante"},{"@type":"Person","name":"F. Londoño"},{"@type":"Person","name":"G. Bombau"},{"@type":"Person","name":"M. Galofre"},{"@type":"Person","name":"G. Vinyes"},{"@type":"Person","name":"V. Monforte"},{"@type":"Person","name":"J. M. Canals"}],"datePublished":"2025","headline":"CD200-based cell sorting results in homogeneous transplantable striatal neuroblasts for cell therapy","identifier":"https://doi.org/10.1016/j.nbd.2025.106905","url":"https://www.sciencedirect.com/science/article/pii/S0969996125001214"},{"@type":"ScholarlyArticle","author":[{"@type":"Person","name":"M. Usman"},{"@type":"Person","name":"O. Varea"},{"@type":"Person","name":"P.I. Radeva"},{"@type":"Person","name":"J.M. Canals"},{"@type":"Person","name":"J. Abante"},{"@type":"Person","name":"D. Ortiz"}],"datePublished":"2025","headline":"Explainable AI model reveals disease-related mechanisms in single-cell RNA-seq data","identifier":"https://doi.org/10.48550/arXiv.2501.03923","url":"https://arxiv.org/abs/2501.03923"},{"@type":"ScholarlyArticle","author":[{"@type":"Person","name":"R. Smeriglio"},{"@type":"Person","name":"J. Rosell-Mirmi"},{"@type":"Person","name":"P. Radeva"},{"@type":"Person","name":"J. Abante"}],"datePublished":"2024","headline":"Leveraging protein-protein interactions in phenotype prediction through graph neural networks","identifier":"https://doi.org/10.1109/CIBCB58642.2024.10702170","url":"https://doi.org/10.1109/CIBCB58642.2024.10702170"},{"@type":"ScholarlyArticle","author":[{"@type":"Person","name":"Y.R. Shen"},{"@type":"Person","name":"S. Zaballa"},{"@type":"Person","name":"X. Bech"},{"@type":"Person","name":"A. Sancho-Balsells"},{"@type":"Person","name":"I. Rodríguez-Navarro"},{"@type":"Person","name":"C. Cifuentes-Díaz"},{"@type":"Person","name":"G. Seyit-Bremer"},{"@type":"Person","name":"S. H. Chun"},{"@type":"Person","name":"T. Straub"},{"@type":"Person","name":"J. Abante"},{"@type":"Person","name":"I. Merino-Valverde"},{"@type":"Person","name":"L. Richart"},{"@type":"Person","name":"V. Gupta"},{"@type":"Person","name":"H.-Y. Li"},{"@type":"Person","name":"I. Ballasch"},{"@type":"Person","name":"N. Alcázar"},{"@type":"Person","name":"J. Alberch"},{"@type":"Person","name":"J. M. Canals"},{"@type":"Person","name":"M. Abad"},{"@type":"Person","name":"D. del Toro"}],"datePublished":"2024","headline":"Expansion of the neocortex and protection from neurodegeneration by in vivo transient reprogramming","identifier":"https://doi.org/10.1016/j.stem.2024.09.013","url":"https://doi.org/10.1016/j.stem.2024.09.013"},{"@type":"ScholarlyArticle","author":[{"@type":"Person","name":"A. Meléndez"},{"@type":"Person","name":"C. López"},{"@type":"Person","name":"D. Bonet"},{"@type":"Person","name":"G. Sant"},{"@type":"Person","name":"D. M. Montserrat"},{"@type":"Person","name":"J. Abante"},{"@type":"Person","name":"M. Rivas"},{"@type":"Person","name":"F. Marqués"},{"@type":"Person","name":"A. Ioannidis"}],"datePublished":"2023","headline":"Assessing Tree-Based Phenotype Prediction on the UK Biobank","identifier":"https://doi.org/10.1109/BIBM58861.2023.10385960","url":"https://ieeexplore.ieee.org/document/10385960"},{"@type":"ScholarlyArticle","author":[{"@type":"Person","name":"J. Abante"},{"@type":"Person","name":"P. L. Wang"},{"@type":"Person","name":"J. Salzman"}],"datePublished":"2023","headline":"DIVE: a reference-free statistical approach to diversity-generating and mobile genetic element discovery","identifier":"https://doi.org/10.1186/s13059-023-03038-0","url":"https://doi.org/10.1186/s13059-023-03038-0"},{"@type":"ScholarlyArticle","author":[{"@type":"Person","name":"Y. Fang"},{"@type":"Person","name":"Z. Ji"},{"@type":"Person","name":"W. Zhou"},{"@type":"Person","name":"J. Abante"},{"@type":"Person","name":"M.A. Koldobskiy"},{"@type":"Person","name":"H. Ji"},{"@type":"Person","name":"A.P. Feinberg"}],"datePublished":"2023","headline":"DNA methylation entropy is associated with DNA sequence features and developmental epigenetic divergence","identifier":"https://doi.org/10.1093/nar/gkad050","url":"https://doi.org/10.1093/nar/gkad050"}]}</script>
 
-<style>
-.pub-entry {
-  position: relative;
-}
-.pub-actions {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  margin-top: 0.5rem;
-}
- 
-.pub-permalink {
-   
-  color: #6c757d !important;
-  font-weight: 700;
-  text-decoration: none !important;
-  opacity: 0;
-  transition: opacity 0.15s ease;
-}
-.pub-entry:hover .pub-permalink,
-.pub-entry:focus-within .pub-permalink,
-.pub-entry:target .pub-permalink {
-  opacity: 1;
-}
-.pub-permalink:hover {
-  color: var(--accent) !important;
-}
-.pub-cite,
-.pub-copy {
-  font-family: inherit;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
-  color: var(--accent-dark);
-  background: transparent;
-  border: 1px solid rgba(220, 53, 69, 0.35);
-  border-radius: 999px;
-  padding: 0.1rem 0.6rem;
-  cursor: pointer;
-}
-.pub-cite:hover,
-.pub-copy:hover {
-  background: rgba(220, 53, 69, 0.08);
-}
-.pub-bibtex {
-  margin-top: 0.75rem;
-  position: relative;
-}
-.pub-bibtex pre {
-  background: #f7f7f7;
-  border: 1px solid #e5e5e5;
-  border-radius: 8px;
-  padding: 0.8rem 0.9rem;
-  margin: 0;
-  overflow-x: auto;
-  font-size: 0.78rem;
-  line-height: 1.5;
-  white-space: pre;
-}
-.pub-bibtex .pub-copy {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  background: #fff;
-}
- 
-.pub-entry:target {
-  border-left-color: var(--accent-dark);
-  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.12);
-}
-</style>
 
 <script>
 (function () {
@@ -772,18 +562,18 @@
                 <div class="col-md-6">
                     
                     <div class="mb-3">
-                        <div class="d-flex justify-content-center align-items-center flex-wrap">
+                        <div class="logo-band d-flex justify-content-center align-items-center flex-wrap">
                             <a href="https://ub.edu">
-                                <img src="/logos/ub.png" alt="Logo UB" style="width:125px; margin-right: 5px;">
+                                <img src="/logos/ub.png" alt="Logo UB">
                             </a>
                             <a href="http://www.neurociencies.ub.edu">
-                                <img src="/logos/ubneuro.png" alt="UBNeuro Logo" style="width:150px; margin-right: 5px;">
+                                <img src="/logos/ubneuro.png" alt="UBNeuro Logo">
                             </a>
                             <a href="https://www.clinicbarcelona.org/en/idibaps">
-                                <img src="/logos/idibaps.jpg" alt="IDIBAPs logo" style="width:80px; margin-right: 5px;">
+                                <img src="/logos/idibaps.jpg" alt="IDIBAPs logo">
                             </a>
                             <a href="https://datascience.ub.edu/tecnio/">
-                                <img src="/logos/tecnio.png" alt="TECNIO logo" style="width:80px; margin-right: 5px;">
+                                <img src="/logos/tecnio.png" alt="TECNIO logo">
                             </a>
                         </div>
                     </div>
@@ -793,15 +583,15 @@
                 <div class="col-md-6">
                     
                     <div class="mb-3">
-                        <div class="d-flex justify-content-center align-items-center flex-wrap">
+                        <div class="logo-band d-flex justify-content-center align-items-center flex-wrap">
                             <a href="https://lacaixafoundation.org/en/">
-                                <img src="/logos/lacaixa.png" alt="la Caixa Foundation Logo" style="width:125px; margin-right: 5px;">
+                                <img src="/logos/lacaixa.png" alt="la Caixa Foundation Logo">
                             </a>
                             <a href="https://www.ciencia.gob.es/en/">
-                                <img src="/logos/ministerio.png" alt="Ministerio de Ciencia e Innovación Logo" style="width:125px; margin-right: 5px;">
+                                <img src="/logos/ministerio.png" alt="Ministerio de Ciencia e Innovación Logo">
                             </a>
                             <a href="https://commission.europa.eu/index_en">
-                                <img src="/logos/european_commission.png" alt="European Commission Logo" style="width:125px; margin-right: 5px;">
+                                <img src="/logos/european_commission.png" alt="European Commission Logo">
                             </a>
                         </div>
                     </div>
@@ -828,15 +618,15 @@
                 <div class="col-md-6">
                     
                     <div class="mb-3">
-                        <div class="d-flex justify-content-center align-items-center flex-wrap">
+                        <div class="logo-band logo-band--small d-flex justify-content-center align-items-center flex-wrap">
                             <a href="https://scholar.google.com/citations?user=VfbWX20AAAAJ" class="mx-1">
-                                <img src='/logos/scholar.png' style="width:25px; height:25px;" alt="Google Scholar" />
+                                <img src='/logos/scholar.png' alt="Google Scholar" />
                             </a>
                             <a href="http://www.github.com/jordiabante" class="mx-1">
-                                <img src='/logos/github.png' style="width:25px; height:25px;" alt="GitHub" />
+                                <img src='/logos/github.png' alt="GitHub" />
                             </a>
                             <a href="http://www.linkedin.com/in/jordiabante" class="mx-1">
-                                <img src='/logos/linkedin.png' style="width:25px; height:25px;" alt="LinkedIn" />
+                                <img src='/logos/linkedin.png' alt="LinkedIn" />
                             </a>
                         </div>
                     </div>
@@ -846,12 +636,12 @@
                 <div class="col-md-6">
                     
                     <div class="mb-3">
-                        <div class="d-flex justify-content-center align-items-center flex-wrap">
+                        <div class="logo-band logo-band--small d-flex justify-content-center align-items-center flex-wrap">
                             <a href="http://www.twitter.com/jordiatjhu" class="mx-1">
-                                <img src='/logos/twitter.png' style="width:25px; height:25px;" alt="Twitter" />
+                                <img src='/logos/twitter.png' alt="Twitter" />
                             </a>
                             <a href="mailto:jordi.abante@ub.edu" class="mx-1">
-                                <img src='/logos/email.png' style="width:25px; height:25px;" alt="Email" />
+                                <img src='/logos/email.png' alt="Email" />
                             </a>
                         </div>
                     </div>
@@ -867,18 +657,6 @@
             </div>
         </div>
     </div>
-    <style>
-      .footer-links {
-        margin-top: 0.75rem;
-      }
-      .footer-links a {
-        color: #6c757d !important;
-      }
-      .footer-links a:hover {
-        color: #c82333 !important;
-        text-decoration: underline;
-      }
-    </style>
 
 
 </body>

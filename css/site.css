@@ -1,81 +1,330 @@
-/* Shared design language for content pages (bio, people, contact, publications,
-   thesis, repos). Keep this file as the single source of truth for the
-   card / list / badge / timeline primitives used across content/*.md. */
+/* ===========================================================================
+   Component layer. Every rule for every component on the site.
+   ---------------------------------------------------------------------------
+   Loaded after tokens.css and the theme's SCSS. This file contains no literal
+   colours, sizes, radii or shadows — all of them are tokens.
 
-:root {
-  --accent: #dc3545;
-  --accent-dark: #c82333;
-  --card-bg: #fff;
-  --card-bg-muted: #f9f9f9;
-  --card-border: rgba(220, 53, 69, 0.18);
-  --card-border-muted: rgba(108, 117, 125, 0.16);
-  --card-shadow: 0 12px 28px rgba(0, 0, 0, 0.04);
-  --text-muted: #3a3a3a;
+   Before this consolidation the site's CSS lived in ten places: this file plus
+   inline <style> blocks in layouts/partials/header.html, layouts/news/list.html,
+   layouts/news/single.html, layouts/shortcodes/{latest-news,publications}.html,
+   themes/researcher/layouts/partials/footer.html, content/contact.md,
+   content/people.md and content/news/2026-08-28-mindai-phd-position.md. #c82333
+   appeared in six of them and rgba(220,53,69,…) at four different alphas.
+
+   Many selectors are prefixed with #content. That is not style — the theme's
+   own rules sit under #content (`#content ul > li`, `#content img`,
+   `#content h1..h6`), and a bare class selector loses to them.
+   =========================================================================== */
+
+/* ---------------------------------------------------------------------------
+   1. Type
+   The theme puts body text on the proportional face (see researcher.scss).
+   Everything that carries the site's voice — chrome, headings, dates, data,
+   code — is named back onto Inconsolata here. */
+
+#content h1, #content h2, #content h3, #content h4, #content h5, #content h6,
+.navbar-brand, .nav-link, .badge, .pub-tag, .aff-tag, .pub-cite, .pub-copy,
+.timeline-year, .member-now, .news-read-more, .news-card-readmore,
+.news-back-link, .news-feed-link, .latest-news-controls button,
+#content table th, code, pre, time {
+  font-family: var(--ds-font-mono);
 }
 
-/* Boxed card: used for standalone items (people, contact, thesis entries,
-   the bio profile card). */
+/* Leading. The theme sets `* { line-height: normal }`, about 1.2 — fine for a
+   heading, tight for a paragraph. */
+#content p,
+#content li,
+#content dd {
+  line-height: var(--ds-leading-body);
+}
+
+/* Heading scale. The theme's steps were 1.8 / 1.6 / 1.4 / 1.2rem, about 12%
+   apart, which is too little to scan by. A section heading gets more room
+   above it than below, so it groups with what follows. Scoped to
+   `> .container >` so headings inside cards keep their own sizes; a news
+   item's body sits one level deeper and is listed alongside. */
+#content > .container > h1,
+.news-single-header h1 {
+  font-size: var(--ds-text-3xl);
+  margin-bottom: var(--ds-space-4);
+}
+#content > .container > h2,
+#content .news-single-body > h2 {
+  font-size: var(--ds-text-2xl);
+  margin-top: var(--ds-space-7);
+  margin-bottom: var(--ds-space-3);
+}
+#content > .container > h3,
+#content .news-single-body > h3 {
+  font-size: var(--ds-text-xl);
+  margin-top: var(--ds-space-5);
+  margin-bottom: var(--ds-space-2);
+}
+#content > .container > h4,
+#content .news-single-body > h4 {
+  font-size: var(--ds-text-lg);
+  margin-top: var(--ds-space-4);
+}
+
+/* Long DOIs, URLs and identifiers must break rather than widen the page. */
+#content {
+  overflow-wrap: break-word;
+}
+
+/* Bullets wrap often at this measure, which exposed the theme's
+   `list-style: inside`: a second line started under the bullet instead of
+   under the text. Hang the marker outside. */
+#content > .container > ul,
+#content > .container > ol,
+#content .news-single-body > ul,
+#content .news-single-body > ol {
+  list-style-position: outside;
+  padding-left: 1.15rem;
+}
+
+/* Prose links are underlined, because colour alone is invisible to a reader
+   with a colour vision deficiency. `:not([class])` is what scopes this to
+   prose: every component link carries a class and keeps its own styling.
+   Headings and icon links are excluded below — they are already unmistakable,
+   and an underline under an icon just looks broken. Those exclusions repeat
+   `:not([class])` deliberately: without it they are less specific than the
+   rule above and would lose. */
+#content a:not([class]) {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1px;
+}
+#content h1 a:not([class]),
+#content h2 a:not([class]),
+#content h3 a:not([class]),
+#content h4 a:not([class]),
+#content h5 a:not([class]),
+#content h6 a:not([class]),
+#content .contact-social a:not([class]) {
+  text-decoration: none;
+}
+
+/* ---------------------------------------------------------------------------
+   2. Focus
+   Keyboard focus was invisible across the whole site: between the theme and
+   Bootstrap, nothing drew an outline, so someone tabbing through had no way to
+   tell what was selected. :focus-visible keeps it off for mouse clicks. */
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+summary:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--ds-accent-strong);
+  outline-offset: 2px;
+  border-radius: var(--ds-radius-sm);
+}
+
+/* ---------------------------------------------------------------------------
+   3. Header and navigation  (was inline in layouts/partials/header.html) */
+
+#site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--ds-surface);
+  border-bottom: 1px solid var(--ds-hairline);
+  padding: var(--ds-space-3) 0;
+  transition: box-shadow 0.2s var(--ds-ease);
+}
+#site-header.scrolled {
+  box-shadow: var(--ds-shadow-header);
+}
+.brand-icon {
+  width: 1em;
+  height: 1em;
+  margin-right: 0.3em;
+  flex-shrink: 0;
+}
+#site-header .navbar-brand:hover {
+  text-decoration: none;
+}
+
+/* Hover and the current page are a tinted pill rather than an underline. The
+   text turns --ds-accent-strong on the tint: the plain accent drops to 4.1:1
+   on it, under the 4.5 floor. The pill sits inside the link's existing
+   padding, so it takes no room from the one-row menu. */
+#site-menu .nav-link {
+  border-radius: var(--ds-radius-md);
+  transition: background-color var(--ds-duration) var(--ds-ease),
+              color var(--ds-duration) var(--ds-ease);
+}
+#site-menu .nav-link:hover {
+  color: var(--ds-accent-strong);
+  background-color: var(--ds-accent-tint);
+  text-decoration: none;
+}
+#site-menu .nav-link-active,
+#site-menu .nav-link-active:hover {
+  color: var(--ds-accent-strong);
+  background-color: var(--ds-accent-tint-2);
+  font-weight: 700;
+}
+.nav-sep {
+  color: var(--ds-ink-400) !important;
+  font-weight: 400;
+}
+/* Bootstrap's .navbar-nav is a column by default; this is the wide-screen
+   layout, a single centred row that wraps rather than overflowing. */
+#site-menu {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+/* Link padding is 0.4rem rather than Bootstrap's 0.5rem, which is what makes
+   room for the brand icon: without it "contact" wraps onto a second row. */
+@media (min-width: 992px) {
+  #site-menu .nav-link {
+    padding-left: 0.4rem;
+    padding-right: 0.4rem;
+  }
+}
+
+/* Hamburger toggle. Hidden above the lg breakpoint; below it the eight links
+   plus the brand no longer fit on one line. */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 42px;
+  height: 36px;
+  padding: 0 var(--ds-space-2);
+  background: transparent;
+  border: 1px solid var(--ds-accent-edge);
+  border-radius: var(--ds-radius-md);
+  cursor: pointer;
+}
+.nav-toggle-bar {
+  display: block;
+  width: 100%;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--ds-accent-strong);
+  transition: transform 0.2s var(--ds-ease), opacity 0.2s var(--ds-ease);
+}
+/* Bars fold into a cross while the menu is open. */
+.nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(2) {
+  opacity: 0;
+}
+.nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+@media (max-width: 991.98px) {
+  .nav-toggle {
+    display: flex;
+  }
+  /* .navbar wraps below the expand breakpoint, so the menu drops onto its own
+     full-width line under the brand. visibility (not just max-height) keeps
+     the collapsed links out of the tab order. */
+  #site-menu {
+    flex-basis: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    max-height: 0;
+    visibility: hidden;
+    overflow: hidden;
+    transition: max-height var(--ds-duration-lg) var(--ds-ease),
+                visibility var(--ds-duration-lg) var(--ds-ease);
+  }
+  #site-menu.open {
+    max-height: 70vh;
+    visibility: visible;
+    margin-top: 0.4rem;
+  }
+  #site-menu .nav-link {
+    padding: 0.55rem 0.6rem;
+    font-size: var(--ds-text-lg);
+    border-bottom: 1px solid var(--ds-ink-100);
+  }
+  #site-menu .nav-link:last-of-type {
+    border-bottom: 0;
+  }
+  /* The dots only make sense between items on a single line. */
+  #site-menu .nav-sep {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  #site-menu,
+  #site-menu .nav-link,
+  .nav-toggle-bar {
+    transition: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   4. Cards
+   Two shapes, and choosing between them is the only layout decision a page
+   author makes: a boxed card for a standalone item, a left-railed row for
+   anything that belongs to a list. */
+
 .entry-card {
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
-  border-radius: 14px;
-  box-shadow: var(--card-shadow);
-  padding: 1.5rem;
+  background: var(--ds-surface);
+  border: 1px solid var(--ds-border);
+  border-radius: var(--ds-radius-2xl);
+  box-shadow: var(--ds-shadow-lg);
+  padding: var(--ds-space-5);
 }
 .entry-card.muted {
-  background: var(--card-bg-muted);
-  border-color: var(--card-border-muted);
+  background: var(--ds-surface-muted);
+  border-color: var(--ds-border-muted);
 }
 .entry-card h3,
 .entry-card h4 {
-  margin: 0 0 0.5rem;
+  margin: 0 0 var(--ds-space-2);
   font-size: 1.1rem;
-  color: var(--accent-dark);
+  color: var(--ds-accent-strong);
 }
 .entry-card p {
-  margin: 0.25rem 0;
-  color: var(--text-muted);
+  margin: var(--ds-space-1) 0;
+  color: var(--ds-text);
 }
 .entry-card a {
-  color: var(--accent);
+  color: var(--ds-accent);
   text-decoration: none;
 }
 .entry-card a:hover {
   text-decoration: underline;
 }
 
-/* Flat, left-accented row: used for dense lists (publications, repos).
-   Applies both to an explicit `.list-card` element and to markdown
-   paragraphs/list items generated inside a `.stack` wrapper, so plain
-   markdown (links, emphasis) keeps working without needing raw HTML.
-   Selectors are prefixed with #content to win specificity over the
-   theme's `#content ul > li { margin: 4px 0; }` rule. */
+/* Flat, left-accented row, for dense lists. Applies both to an explicit
+   `.list-card` element and to markdown paragraphs and list items generated
+   inside a `.stack` wrapper, so plain markdown keeps working without needing
+   raw HTML. */
 #content .list-card,
 #content .stack > p,
 #content .stack > ul > li {
-  background: var(--card-bg);
-  border-left: 3px solid var(--accent);
-  border-radius: 0 10px 10px 0;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.03);
+  background: var(--ds-surface);
+  border-left: var(--ds-rail) solid var(--ds-accent);
+  border-radius: 0 var(--ds-radius-lg) var(--ds-radius-lg) 0;
+  box-shadow: var(--ds-shadow-md);
   padding: 0.75rem 1.1rem;
   margin: 0;
   list-style: none;
-  transition: border-color 0.15s ease;
+  color: var(--ds-text);
+  transition: border-color var(--ds-duration) var(--ds-ease);
 }
 #content .list-card:hover,
 #content .stack > p:hover,
 #content .stack > ul > li:hover {
-  border-left-color: var(--accent-dark);
-}
-#content .list-card p,
-#content .stack > p,
-#content .stack > ul > li {
-  color: var(--text-muted);
+  border-left-color: var(--ds-accent-strong);
 }
 #content .list-card a,
 #content .stack > p a,
 #content .stack > ul > li a {
-  color: var(--accent);
+  color: var(--ds-accent);
   text-decoration: none;
 }
 #content .list-card a:hover,
@@ -84,20 +333,82 @@
   text-decoration: underline;
 }
 
+/* ---------------------------------------------------------------------------
+   5. Badges and tags */
 
-/* Content figure: an image through the `figure` shortcode, with its caption.
+/* Small accent pill: role labels, statuses. */
+.badge {
+  display: inline-block;
+  background: var(--ds-accent-tint-2);
+  color: var(--ds-accent-strong);
+  padding: 0.15rem 0.65rem;
+  border-radius: var(--ds-radius-pill);
+  font-size: var(--ds-text-xs);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+/* Publication type. The text label carries the meaning; colour is a secondary
+   cue only. `conference` used to be blue, which now collides with the brand,
+   so it is purple. */
+.pub-tag {
+  display: inline-block;
+  font-size: var(--ds-text-2xs);
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  padding: 0.1rem 0.55rem;
+  border-radius: var(--ds-radius-pill);
+  margin-right: 0.55rem;
+  vertical-align: 1px;
+}
+.pub-tag--journal {
+  background: var(--ds-journal-fill);
+  color: var(--ds-journal-text);
+}
+.pub-tag--conference {
+  background: var(--ds-conference-fill);
+  color: var(--ds-conference-text);
+}
+.pub-tag--preprint {
+  background: var(--ds-preprint-fill);
+  color: var(--ds-preprint-text);
+}
+
+/* Affiliation chip. */
+.aff-tag {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--ds-text);
+  background: var(--ds-surface-sunken);
+  border: 1px solid var(--ds-border-muted);
+  padding: 0.2rem 0.65rem;
+  border-radius: var(--ds-radius-pill);
+}
+.affiliations {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ds-space-1);
+  margin-top: 0.65rem;
+}
+
+/* ---------------------------------------------------------------------------
+   6. Figures
    The theme centres every `#content img` and gives it a 16px margin, so the
    sizing here has to match on #content to win. */
+
 #content .content-figure {
-  margin: 1.5rem 0 2rem;
+  margin: var(--ds-space-5) 0 var(--ds-space-6);
 }
 #content .content-figure img {
   display: block;
   width: 100%;
   height: auto;
   margin: 0;
-  border-radius: 12px;
-  box-shadow: var(--card-shadow);
+  border-radius: var(--ds-radius-xl);
+  box-shadow: var(--ds-shadow-lg);
 }
 #content .content-figure.plain img {
   border-radius: 0;
@@ -105,83 +416,19 @@
 }
 #content .content-figure figcaption {
   margin-top: 0.65rem;
-  font-size: 0.88rem;
+  font-size: var(--ds-text-sm);
   line-height: 1.5;
-  color: #4a4a4a;
+  color: var(--ds-text-soft);
 }
 
-/* Small accent pill, e.g. role labels, statuses. */
-.badge {
-  display: inline-block;
-  background: rgba(220, 53, 69, 0.12);
-  color: var(--accent-dark);
-  padding: 0.15rem 0.65rem;
-  border-radius: 999px;
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-}
+/* ---------------------------------------------------------------------------
+   7. Timeline and profile  (the bio page) */
 
-/* Publication type tag: distinguishes journal / conference / preprint
-   entries without changing the shared accent (left border) used across
-   the site. Text label carries the meaning; color is a secondary cue. */
-.pub-tag {
-  display: inline-block;
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
-  padding: 0.1rem 0.55rem;
-  border-radius: 999px;
-  margin-right: 0.55rem;
-  vertical-align: 1px;
-}
-.pub-tag--journal {
-  background: rgba(25, 135, 84, 0.12);
-  color: #146c43;
-}
-.pub-tag--conference {
-  background: rgba(13, 110, 253, 0.12);
-  color: #0b5ed7;
-}
-.pub-tag--preprint {
-  background: rgba(255, 193, 7, 0.16);
-  color: #a66a00;
-}
-
-/* Layout helpers. */
-.stack {
-  display: flex;
-  flex-direction: column;
-  gap: 0.9rem;
-  margin: 1rem 0 2rem;
-}
-.stack > ul {
-  display: flex;
-  flex-direction: column;
-  gap: 0.9rem;
-  margin: 0;
-  padding: 0;
-}
-.stack-lg {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  margin: 1rem 0 2rem;
-}
-.grid-2 {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1.5rem;
-  margin: 1rem 0 2rem;
-}
-
-/* Vertical timeline, used on the bio page. */
 .timeline {
   position: relative;
-  margin: 1.5rem 0 2rem;
+  margin: var(--ds-space-5) 0 var(--ds-space-6);
   padding-left: 1.75rem;
-  border-left: 2px solid var(--card-border);
+  border-left: 2px solid var(--ds-border);
   display: flex;
   flex-direction: column;
   gap: 1.75rem;
@@ -197,26 +444,25 @@
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: var(--accent);
+  background: var(--ds-accent);
 }
 .timeline-year {
   display: inline-block;
   font-weight: 700;
-  color: var(--accent-dark);
+  color: var(--ds-accent-strong);
   font-size: 0.85rem;
-  margin-bottom: 0.25rem;
+  margin-bottom: var(--ds-space-1);
 }
 .timeline-item p {
   margin: 0;
-  color: var(--text-muted);
+  color: var(--ds-text);
 }
 
-/* Profile header, used on the bio page. */
 .profile-card {
   display: flex;
   align-items: center;
   gap: 1.75rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: var(--ds-space-2);
 }
 /* `#content img { margin: 16px auto }` in the theme outranks a plain
    `.profile-card img`, so the avatar drifted to the centre of its flex share
@@ -235,25 +481,584 @@
 }
 .profile-card p {
   margin: 0.15rem 0;
-  color: var(--text-muted);
+  color: var(--ds-text);
 }
-.affiliations {
+
+/* ---------------------------------------------------------------------------
+   8. People  (was inline in content/people.md) */
+
+.member-list {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-  margin-top: 0.65rem;
+  flex-direction: column;
+  gap: var(--ds-space-5);
+  margin: var(--ds-space-4) 0 2.5rem;
 }
-.aff-tag {
-  display: inline-block;
+.member-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ds-space-5);
+}
+.member-details {
+  flex: 1 1 60%;
+}
+.member-details h3 {
+  margin: 0 0 var(--ds-space-2);
+  font-size: var(--ds-text-xl);
+  color: inherit;
+}
+.member-details .badge {
+  margin-bottom: 0.75rem;
+}
+/* Where an alumnus went next. Kept quiet: it is context, not the headline. */
+.member-now {
+  margin-top: 0.6rem !important;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--ds-accent-strong) !important;
+}
+.member-now a {
+  color: inherit;
+  text-decoration: none;
+}
+.member-now a:hover {
+  text-decoration: underline;
+}
+.member-photo {
+  flex: 0 0 150px;
+  width: 150px;
+  min-width: 150px;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.member-photo img {
+  width: auto;
+  min-width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--ds-radius-xl);
+}
+@media (max-width: 900px) {
+  .member-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .member-photo {
+    width: 100%;
+    min-width: auto;
+    height: auto;
+  }
+  .member-photo img {
+    height: auto;
+  }
+}
+/* On a phone the full-bleed portrait above makes every card about a screen
+   tall, so the team becomes a very long scroll. Go back to a row, with a
+   thumbnail small enough to sit next to the name. */
+@media (max-width: 767.98px) {
+  .member-row {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--ds-space-4);
+  }
+  /* Without min-width:0 the text column refuses to shrink below its
+     min-content width and shoves the thumbnail out of the card. */
+  .member-details {
+    min-width: 0;
+  }
+  .member-details .badge {
+    white-space: normal;
+    text-align: left;
+    font-size: 0.7rem;
+  }
+  .member-photo {
+    flex: 0 0 88px;
+    width: 88px;
+    min-width: 88px;
+    height: 88px;
+  }
+  .member-photo img {
+    width: 100%;
+    min-width: 0;
+    height: 100%;
+  }
+  /* The theme's `#content h1..h6` margin outranks `.member-details h3` and
+     adds an unwanted 1.2rem above every name. */
+  #content .member-details h3 {
+    margin: 0 0 0.4rem;
+    font-size: var(--ds-text-lg);
+  }
+  .member-details p {
+    font-size: 0.9rem;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   9. Publications  (was inline in layouts/shortcodes/publications.html) */
+
+.pub-entry {
+  position: relative;
+}
+.pub-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: var(--ds-space-2);
+}
+/* The anchor is not something a reader needs unless they want it, so keep it
+   quiet until the entry is hovered or something in it takes focus. The grey
+   is the one already used for dates: #b9b9b9 measured 1.96:1 against white,
+   far under the 4.5 minimum, while this clears it at 4.69. */
+.pub-permalink {
+  color: var(--ds-text-soft) !important;
+  font-weight: 700;
+  text-decoration: none !important;
+  opacity: 0;
+  transition: opacity var(--ds-duration) var(--ds-ease);
+}
+.pub-entry:hover .pub-permalink,
+.pub-entry:focus-within .pub-permalink,
+.pub-entry:target .pub-permalink {
+  opacity: 1;
+}
+.pub-permalink:hover {
+  color: var(--ds-accent) !important;
+}
+.pub-cite,
+.pub-copy {
   font-size: 0.72rem;
   font-weight: 700;
-  letter-spacing: 0.02em;
-  color: var(--text-muted);
-  background: #f4f4f4;
-  border: 1px solid #e5e5e5;
-  padding: 0.2rem 0.65rem;
-  border-radius: 999px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--ds-accent-strong);
+  background: transparent;
+  border: 1px solid var(--ds-accent-edge);
+  border-radius: var(--ds-radius-pill);
+  padding: 0.1rem 0.6rem;
+  cursor: pointer;
 }
+.pub-cite:hover,
+.pub-copy:hover {
+  background: var(--ds-accent-tint);
+}
+.pub-bibtex {
+  margin-top: 0.75rem;
+  position: relative;
+}
+.pub-bibtex pre {
+  background: var(--ds-surface-muted);
+  border: 1px solid var(--ds-border-muted);
+  border-radius: var(--ds-radius-md);
+  padding: 0.8rem 0.9rem;
+  margin: 0;
+  overflow-x: auto;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  white-space: pre;
+}
+.pub-bibtex .pub-copy {
+  position: absolute;
+  top: var(--ds-space-2);
+  right: var(--ds-space-2);
+  background: var(--ds-surface);
+}
+/* An entry arrived at by its anchor should be obvious. */
+.pub-entry:target {
+  border-left-color: var(--ds-accent-strong);
+  box-shadow: 0 0 0 3px var(--ds-accent-tint-2);
+}
+
+/* ---------------------------------------------------------------------------
+   10. News
+   The list item and the home-page card were near-duplicates of the railed row
+   with their own radius (8px vs 10px) and shadow. They share it now. */
+
+.news-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--ds-space-4);
+  flex-wrap: wrap;
+}
+.news-header h1 {
+  margin: 0;
+}
+.news-feed-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: var(--ds-text-sm);
+  font-weight: 700;
+  color: var(--ds-accent-strong);
+  text-decoration: none;
+  border: 1px solid var(--ds-accent-edge);
+  border-radius: var(--ds-radius-pill);
+  padding: 0.25rem 0.75rem;
+}
+.news-feed-link:hover {
+  background: var(--ds-accent-tint);
+  text-decoration: none;
+}
+
+.news-list {
+  margin-top: var(--ds-space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-space-6);
+}
+.news-list-item {
+  border-left: var(--ds-rail) solid var(--ds-accent);
+  padding: 0.75rem 1.25rem;
+  background: var(--ds-surface);
+  border-radius: 0 var(--ds-radius-lg) var(--ds-radius-lg) 0;
+  box-shadow: var(--ds-shadow-sm);
+}
+.news-list-item time {
+  display: block;
+  font-size: 0.9rem;
+  color: var(--ds-text-soft);
+  margin-bottom: 0.3rem;
+}
+.news-list-item h2 {
+  margin: 0 0 var(--ds-space-2);
+  font-size: var(--ds-text-xl);
+}
+.news-list-item h2 a {
+  text-decoration: none;
+  color: inherit;
+}
+.news-list-item h2 a:hover {
+  color: var(--ds-accent-strong);
+}
+.news-list-summary {
+  color: var(--ds-text);
+  margin-bottom: 0.6rem;
+}
+.news-read-more {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--ds-accent-strong);
+  text-decoration: none;
+}
+.news-read-more:hover {
+  text-decoration: underline;
+}
+
+/* Single news item. */
+.news-single-header {
+  margin-bottom: var(--ds-space-5);
+}
+.news-back-link {
+  display: inline-block;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--ds-accent-strong);
+  text-decoration: none;
+  margin-bottom: 0.75rem;
+}
+.news-back-link:hover {
+  text-decoration: underline;
+}
+.news-single-header time {
+  display: block;
+  font-size: 0.95rem;
+  color: var(--ds-text-soft);
+  margin-bottom: 0.4rem;
+}
+.news-single-header h1 {
+  margin: 0;
+}
+.news-single-body {
+  line-height: 1.75;
+  color: var(--ds-text);
+}
+
+/* Home-page carousel  (was inline in layouts/shortcodes/latest-news.html) */
+#latest-news {
+  margin: var(--ds-space-6) 0;
+}
+#latest-news h2 {
+  margin-bottom: var(--ds-space-4);
+}
+.latest-news-carousel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-space-4);
+}
+.latest-news-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--ds-space-4);
+}
+.news-card {
+  border: 1px solid var(--ds-border);
+  border-radius: var(--ds-radius-xl);
+  background: var(--ds-surface);
+  padding: 1.25rem;
+  box-shadow: var(--ds-shadow-lg);
+  transition: transform var(--ds-duration-lg) var(--ds-ease),
+              box-shadow var(--ds-duration-lg) var(--ds-ease);
+}
+.news-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.06);
+}
+.news-card time {
+  display: block;
+  font-size: 0.95rem;
+  color: var(--ds-text-soft);
+  margin-bottom: 0.45rem;
+}
+.news-card h3 {
+  margin: 0 0 0.7rem;
+  font-size: 1.1rem;
+}
+.news-card h3 a {
+  text-decoration: none;
+  color: inherit;
+}
+.news-card h3 a:hover {
+  color: var(--ds-accent-strong);
+}
+.news-card .news-summary {
+  margin: 0 0 0.6rem;
+  color: var(--ds-text);
+}
+.news-card .news-summary p {
+  margin: var(--ds-space-2) 0 0;
+}
+.news-card-readmore {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--ds-accent-strong);
+  text-decoration: none;
+}
+.news-card-readmore:hover {
+  text-decoration: underline;
+}
+.latest-news-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+.latest-news-controls button {
+  border: 1px solid var(--ds-accent-edge);
+  background: transparent;
+  color: var(--ds-accent-strong);
+  border-radius: var(--ds-radius-pill);
+  padding: 0.45rem var(--ds-space-4);
+  font-weight: 700;
+  cursor: pointer;
+}
+.latest-news-controls button:hover {
+  background: var(--ds-accent-tint);
+}
+.latest-news-controls span {
+  font-size: 0.95rem;
+  color: var(--ds-text);
+}
+.latest-news-progress-bar-container {
+  width: 100%;
+  height: 6px;
+  background: var(--ds-blue-100);
+  border-radius: var(--ds-radius-sm);
+  margin: var(--ds-space-2) 0;
+  overflow: hidden;
+}
+#latest-news-progress-bar {
+  height: 100%;
+  width: 0%;
+  /* Was a red-to-amber gradient, which read as a warning state rather than
+     progress. One hue, light to dark. */
+  background: linear-gradient(90deg, var(--ds-blue-400) 0%, var(--ds-accent) 100%);
+  transition: width 0.1s linear;
+}
+@media (max-width: 980px) {
+  .latest-news-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 720px) {
+  .latest-news-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   11. Contact  (was inline in content/contact.md) */
+
+.contact-social {
+  display: flex;
+  align-items: center;
+  gap: var(--ds-space-4);
+  margin-top: var(--ds-space-2);
+}
+.contact-social img {
+  width: 26px;
+  height: 26px;
+}
+.contact-map {
+  margin-top: var(--ds-space-2);
+  border: 1px solid var(--ds-border);
+  border-radius: var(--ds-radius-2xl);
+  overflow: hidden;
+  box-shadow: var(--ds-shadow-lg);
+}
+.contact-map iframe {
+  width: 100%;
+  height: 320px;
+  border: 0;
+  display: block;
+}
+
+/* ---------------------------------------------------------------------------
+   12. Open call  (was inline in content/news/2026-08-28-mindai-phd-position.md)
+   Generic enough for any future position; the classes are not dated. */
+
+#content .page-updated {
+  font-size: 0.85rem;
+  color: var(--ds-text-soft);
+  margin: 0 0 var(--ds-space-5);
+}
+#content .call-status {
+  border-left: var(--ds-rail) solid var(--ds-accent);
+  background: var(--ds-surface-muted);
+  border-radius: 0 var(--ds-radius-lg) var(--ds-radius-lg) 0;
+  padding: 0.9rem 1.1rem;
+  margin: 0 0 var(--ds-space-6);
+}
+#content .call-status p {
+  margin: 0;
+  color: var(--ds-text);
+}
+
+/* The theme numbers list items with a `:before` counter and `list-style: none`,
+   so a wrapped line starts under the number instead of under the text. Hang it,
+   and give each step room — these are three or four lines each, not bullets. */
+#content .process-list ol {
+  padding-left: 0;
+  margin: var(--ds-space-4) 0 var(--ds-space-6);
+}
+#content .process-list ol > li {
+  padding-left: 2.3rem;
+  text-indent: -2.3rem;
+  margin: 0 0 0.95rem;
+}
+#content .process-list ol > li:last-child {
+  margin-bottom: 0;
+}
+
+/* The theme draws a full grey grid on every table and shades alternate rows,
+   which is far too heavy for three rows sitting inside a card. Strip it back to
+   one hairline between rows. */
+#content .date-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: var(--ds-space-2) 0 0;
+}
+#content .date-table tr,
+#content .date-table tr:nth-child(2n) {
+  background: none;
+  border: 0;
+}
+#content .date-table th,
+#content .date-table td {
+  text-align: left;
+  vertical-align: top;
+  padding: 0.55rem var(--ds-space-4) 0.55rem 0;
+  border: 0;
+  border-bottom: 1px solid var(--ds-border-muted);
+  color: var(--ds-text);
+}
+#content .date-table tr:last-child th,
+#content .date-table tr:last-child td {
+  border-bottom: 0;
+}
+#content .date-table th {
+  white-space: nowrap;
+  font-weight: 700;
+  color: var(--ds-accent-strong);
+}
+/* A label and its date cannot sit side by side on a phone, so stack them and
+   keep the pairs apart with space rather than with a rule. */
+@media (max-width: 575.98px) {
+  #content .date-table th,
+  #content .date-table td {
+    display: block;
+    padding: 0.1rem 0;
+    border-bottom: 0;
+    white-space: normal;
+  }
+  #content .date-table td {
+    padding-bottom: var(--ds-space-4);
+  }
+  #content .date-table tr:last-child td {
+    padding-bottom: 0;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   13. Footer  (was inline in themes/researcher/layouts/partials/footer.html) */
+
+.footer-links {
+  margin-top: 0.75rem;
+}
+.footer-links a {
+  color: var(--ds-text-soft) !important;
+}
+.footer-links a:hover {
+  color: var(--ds-accent-strong) !important;
+  text-decoration: underline;
+}
+/* Logos were sized one by one in style attributes (125 / 150 / 80 / 80px
+   wide), which put them on visually different scales. Cap the height instead
+   and let each keep its own aspect ratio. */
+#footer .logo-band img {
+  max-height: 44px;
+  width: auto;
+  margin: 0 var(--ds-space-2);
+}
+#footer .logo-band--small img {
+  max-height: 25px;
+}
+
+/* ---------------------------------------------------------------------------
+   14. Layout helpers */
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  margin: var(--ds-space-4) 0 var(--ds-space-6);
+}
+.stack > ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  margin: 0;
+  padding: 0;
+}
+.stack-lg {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-space-5);
+  margin: var(--ds-space-4) 0 var(--ds-space-6);
+}
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--ds-space-5);
+  margin: var(--ds-space-4) 0 var(--ds-space-6);
+}
+
+/* ---------------------------------------------------------------------------
+   15. Small screens
+   The layout is fluid down to phone widths, but the desktop paddings and fixed
+   image sizes waste a lot of a 375px screen. */
 
 @media (max-width: 700px) {
   .grid-2 {
@@ -266,28 +1071,25 @@
   }
 }
 
-/* ---------------------------------------------------------------------------
-   Mobile refinements. The layout is fluid down to phone widths, but the
-   desktop paddings and fixed image sizes waste a lot of a 375px screen, so
-   tighten them up below Bootstrap's sm breakpoint. */
-
-/* Long DOIs, URLs and identifiers must be allowed to break rather than push
-   the page wider than the viewport. */
-#content {
-  overflow-wrap: break-word;
-}
-
 @media (max-width: 575.98px) {
   #content .container,
   #site-header .container,
   #footer .container {
-    padding-left: 18px;
-    padding-right: 18px;
+    padding-left: var(--ds-space-5);
+    padding-right: var(--ds-space-5);
+  }
+
+  #site-header {
+    padding: 0.6rem 0;
+  }
+  #site-header .navbar-brand {
+    font-size: var(--ds-text-2xl);
+    margin-right: 0;
   }
 
   .entry-card {
     padding: 1.1rem;
-    border-radius: 12px;
+    border-radius: var(--ds-radius-xl);
   }
   /* The theme gives every heading a 1.2rem top margin, which reads as dead
      space when the heading opens a card. */
@@ -308,7 +1110,7 @@
     gap: 0.75rem;
   }
   .grid-2 {
-    gap: 1rem;
+    gap: var(--ds-space-4);
   }
 
   /* The timeline rail and its dots are sized for a roomy left margin. */
@@ -321,7 +1123,7 @@
   }
 
   .profile-card {
-    gap: 1rem;
+    gap: var(--ds-space-4);
   }
   /* #content img centres every image, which leaves the avatar floating above
      left-aligned text once the card stacks. */
@@ -332,105 +1134,4 @@
     margin-left: 0;
     margin-right: auto;
   }
-}
-
-/* ---------------------------------------------------------------------------
-   Accessibility fixes, August 2026. */
-
-/* Keyboard focus was invisible across the whole site: between the theme and
-   Bootstrap, nothing drew an outline, so someone tabbing through had no way to
-   tell what was selected. :focus-visible keeps it off for mouse clicks. */
-a:focus-visible,
-button:focus-visible,
-input:focus-visible,
-select:focus-visible,
-textarea:focus-visible,
-summary:focus-visible,
-[tabindex]:focus-visible {
-  outline: 2px solid var(--accent-dark);
-  outline-offset: 2px;
-  border-radius: 4px;
-}
-
-/* Links in prose were marked by colour alone, which a reader with a colour
-   vision deficiency cannot see. Underline them.
-   The `:not([class])` is what scopes this to prose: every component link on the
-   site (read-more, permalink, feed pill) carries a class and keeps its own
-   styling. Headings and icon links are excluded below — they are already
-   unmistakable, and an underline under an icon just looks broken.
-   Those exclusions repeat `:not([class])` deliberately: without it they are less
-   specific than the rule above and would lose. */
-#content a:not([class]) {
-  text-decoration: underline;
-  text-underline-offset: 2px;
-  text-decoration-thickness: 1px;
-}
-#content h1 a:not([class]),
-#content h2 a:not([class]),
-#content h3 a:not([class]),
-#content h4 a:not([class]),
-#content h5 a:not([class]),
-#content h6 a:not([class]),
-#content .contact-social a:not([class]) {
-  text-decoration: none;
-}
-
-/* ---------------------------------------------------------------------------
-   Reading measure and heading scale, August 2026. */
-
-/* Leading. The theme sets `* { line-height: normal }`, about 1.2, which is
-   fine for a heading and tight for a paragraph. */
-#content p,
-#content li,
-#content dd {
-  line-height: 1.6;
-}
-
-/* No measure cap. Capping prose at 75ch left it ending 370px short of the
-   cards and grids beside it, so the page lost its right edge and the gap read
-   as a mistake. With a 1000px frame and a monospaced face you cannot have both
-   a comfortable measure and a single edge — narrowing the text alone is what
-   looks wrong. Leading and heading scale below carry most of the readability
-   benefit anyway. */
-
-/* Heading scale. The theme's steps were 1.8 / 1.6 / 1.4 / 1.2rem — about 12%
-   apart, which is too little to scan by. Widen the gaps and give a section
-   heading more room above it than below, so it groups with what follows.
-   Scoped to `> .container >` so headings inside cards keep their own sizes.
-   A news item's body sits one level deeper, inside `.news-single-body`, so it
-   is listed alongside — most items are a paragraph with no headings at all, but
-   a long one (an open position, say) needs the same scale as the rest of the
-   site rather than the theme's flatter one. */
-#content > .container > h1,
-.news-single-header h1 {
-  font-size: 2.1rem;
-  margin-bottom: 1rem;
-}
-#content > .container > h2,
-#content .news-single-body > h2 {
-  font-size: 1.6rem;
-  margin-top: 2.5rem;
-  margin-bottom: 0.9rem;
-}
-#content > .container > h3,
-#content .news-single-body > h3 {
-  font-size: 1.25rem;
-  margin-top: 1.9rem;
-  margin-bottom: 0.6rem;
-}
-#content > .container > h4,
-#content .news-single-body > h4 {
-  font-size: 1.05rem;
-  margin-top: 1.5rem;
-}
-
-/* Narrower lines mean bullets wrap more often, which exposed the theme's
-   `list-style: inside`: the second line of an item started under the bullet
-   instead of under the text. Hang the marker outside instead. */
-#content > .container > ul,
-#content > .container > ol,
-#content .news-single-body > ul,
-#content .news-single-body > ol {
-  list-style-position: outside;
-  padding-left: 1.15rem;
 }

@@ -37,6 +37,9 @@
     <link rel="stylesheet" href="/css/inconsolata.css">
 
     
+    <link rel="stylesheet" href="/css/tokens.css">
+
+    
     <link rel="stylesheet" href="/sass/researcher.min.css">
     <link rel="stylesheet" href="/css/site.css">
 
@@ -129,147 +132,6 @@
   </div>
 </div>
 
-<style>
-#site-header {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background: #fff;
-  border-bottom: 1px solid #e8e8e8;
-  padding: 0.75rem 0;
-  transition: box-shadow 0.2s ease;
-}
-#site-header.scrolled {
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-}
-.brand-icon {
-  width: 1em;
-  height: 1em;
-  margin-right: 0.3em;
-  flex-shrink: 0;
-}
- 
-#site-header .navbar-brand:hover {
-  text-decoration: none;
-}
-#site-menu .nav-link {
-  border-radius: 6px;
-  transition: background-color 0.15s ease, color 0.15s ease;
-}
-#site-menu .nav-link:hover {
-  color: var(--accent-dark);
-  background-color: rgba(220, 53, 69, 0.07);
-  text-decoration: none;
-}
-#site-menu .nav-link-active,
-#site-menu .nav-link-active:hover {
-  color: var(--accent-dark);
-  background-color: rgba(220, 53, 69, 0.11);
-  font-weight: 700;
-}
-.nav-sep {
-  color: #bbb !important;
-  font-weight: 400;
-}
- 
- 
-@media (min-width: 992px) {
-  #site-menu .nav-link {
-    padding-left: 0.4rem;
-    padding-right: 0.4rem;
-  }
-}
-#site-menu {
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-}
-
- 
-.nav-toggle {
-  display: none;
-  flex-direction: column;
-  justify-content: center;
-  gap: 5px;
-  width: 42px;
-  height: 36px;
-  padding: 0 8px;
-  background: transparent;
-  border: 1px solid rgba(220, 53, 69, 0.35);
-  border-radius: 8px;
-  cursor: pointer;
-}
-.nav-toggle-bar {
-  display: block;
-  width: 100%;
-  height: 2px;
-  border-radius: 2px;
-  background: #c82333;
-  transition: transform 0.2s ease, opacity 0.2s ease;
-}
- 
-.nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(1) {
-  transform: translateY(7px) rotate(45deg);
-}
-.nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(2) {
-  opacity: 0;
-}
-.nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(3) {
-  transform: translateY(-7px) rotate(-45deg);
-}
-
-@media (max-width: 991.98px) {
-  .nav-toggle {
-    display: flex;
-  }
-   
-  #site-menu {
-    flex-basis: 100%;
-    flex-direction: column;
-    align-items: stretch;
-    max-height: 0;
-    visibility: hidden;
-    overflow: hidden;
-    transition: max-height 0.25s ease, visibility 0.25s ease;
-  }
-  #site-menu.open {
-    max-height: 70vh;
-    visibility: visible;
-    margin-top: 0.4rem;
-  }
-  #site-menu .nav-link {
-    padding: 0.55rem 0.6rem;
-    font-size: 1.05rem;
-    border-bottom: 1px solid #f1f1f1;
-  }
-  #site-menu .nav-link:last-of-type {
-    border-bottom: 0;
-  }
-   
-  #site-menu .nav-sep {
-    display: none;
-  }
-}
-
-@media (max-width: 575.98px) {
-  #site-header {
-    padding: 0.6rem 0;
-  }
-  #site-header .navbar-brand {
-    font-size: 1.5rem;
-    margin-right: 0;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  #site-menu,
-  #site-menu .nav-link,
-  .nav-toggle-bar {
-    transition: none;
-  }
-}
-</style>
 
 <script>
 (function () {
@@ -317,35 +179,7 @@
 </script>
 <div id="content">
 <div class="container">
-    <style>
-.contact-social {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-top: 0.5rem;
-}
-
-.contact-social img {
-  width: 26px;
-  height: 26px;
-}
-
-.contact-map {
-  margin-top: 0.5rem;
-  border: 1px solid var(--card-border);
-  border-radius: 14px;
-  overflow: hidden;
-  box-shadow: var(--card-shadow);
-}
-
-.contact-map iframe {
-  width: 100%;
-  height: 320px;
-  border: 0;
-  display: block;
-}
-</style>
-<h2 id="get-in-touch">get in touch</h2>
+    <h2 id="get-in-touch">get in touch</h2>
 <div class="grid-2">
   <div class="entry-card">
     <h3>email</h3>
@@ -404,18 +238,18 @@
                 <div class="col-md-6">
                     
                     <div class="mb-3">
-                        <div class="d-flex justify-content-center align-items-center flex-wrap">
+                        <div class="logo-band d-flex justify-content-center align-items-center flex-wrap">
                             <a href="https://ub.edu">
-                                <img src="/logos/ub.png" alt="Logo UB" style="width:125px; margin-right: 5px;">
+                                <img src="/logos/ub.png" alt="Logo UB">
                             </a>
                             <a href="http://www.neurociencies.ub.edu">
-                                <img src="/logos/ubneuro.png" alt="UBNeuro Logo" style="width:150px; margin-right: 5px;">
+                                <img src="/logos/ubneuro.png" alt="UBNeuro Logo">
                             </a>
                             <a href="https://www.clinicbarcelona.org/en/idibaps">
-                                <img src="/logos/idibaps.jpg" alt="IDIBAPs logo" style="width:80px; margin-right: 5px;">
+                                <img src="/logos/idibaps.jpg" alt="IDIBAPs logo">
                             </a>
                             <a href="https://datascience.ub.edu/tecnio/">
-                                <img src="/logos/tecnio.png" alt="TECNIO logo" style="width:80px; margin-right: 5px;">
+                                <img src="/logos/tecnio.png" alt="TECNIO logo">
                             </a>
                         </div>
                     </div>
@@ -425,15 +259,15 @@
                 <div class="col-md-6">
                     
                     <div class="mb-3">
-                        <div class="d-flex justify-content-center align-items-center flex-wrap">
+                        <div class="logo-band d-flex justify-content-center align-items-center flex-wrap">
                             <a href="https://lacaixafoundation.org/en/">
-                                <img src="/logos/lacaixa.png" alt="la Caixa Foundation Logo" style="width:125px; margin-right: 5px;">
+                                <img src="/logos/lacaixa.png" alt="la Caixa Foundation Logo">
                             </a>
                             <a href="https://www.ciencia.gob.es/en/">
-                                <img src="/logos/ministerio.png" alt="Ministerio de Ciencia e Innovación Logo" style="width:125px; margin-right: 5px;">
+                                <img src="/logos/ministerio.png" alt="Ministerio de Ciencia e Innovación Logo">
                             </a>
                             <a href="https://commission.europa.eu/index_en">
-                                <img src="/logos/european_commission.png" alt="European Commission Logo" style="width:125px; margin-right: 5px;">
+                                <img src="/logos/european_commission.png" alt="European Commission Logo">
                             </a>
                         </div>
                     </div>
@@ -460,15 +294,15 @@
                 <div class="col-md-6">
                     
                     <div class="mb-3">
-                        <div class="d-flex justify-content-center align-items-center flex-wrap">
+                        <div class="logo-band logo-band--small d-flex justify-content-center align-items-center flex-wrap">
                             <a href="https://scholar.google.com/citations?user=VfbWX20AAAAJ" class="mx-1">
-                                <img src='/logos/scholar.png' style="width:25px; height:25px;" alt="Google Scholar" />
+                                <img src='/logos/scholar.png' alt="Google Scholar" />
                             </a>
                             <a href="http://www.github.com/jordiabante" class="mx-1">
-                                <img src='/logos/github.png' style="width:25px; height:25px;" alt="GitHub" />
+                                <img src='/logos/github.png' alt="GitHub" />
                             </a>
                             <a href="http://www.linkedin.com/in/jordiabante" class="mx-1">
-                                <img src='/logos/linkedin.png' style="width:25px; height:25px;" alt="LinkedIn" />
+                                <img src='/logos/linkedin.png' alt="LinkedIn" />
                             </a>
                         </div>
                     </div>
@@ -478,12 +312,12 @@
                 <div class="col-md-6">
                     
                     <div class="mb-3">
-                        <div class="d-flex justify-content-center align-items-center flex-wrap">
+                        <div class="logo-band logo-band--small d-flex justify-content-center align-items-center flex-wrap">
                             <a href="http://www.twitter.com/jordiatjhu" class="mx-1">
-                                <img src='/logos/twitter.png' style="width:25px; height:25px;" alt="Twitter" />
+                                <img src='/logos/twitter.png' alt="Twitter" />
                             </a>
                             <a href="mailto:jordi.abante@ub.edu" class="mx-1">
-                                <img src='/logos/email.png' style="width:25px; height:25px;" alt="Email" />
+                                <img src='/logos/email.png' alt="Email" />
                             </a>
                         </div>
                     </div>
@@ -499,18 +333,6 @@
             </div>
         </div>
     </div>
-    <style>
-      .footer-links {
-        margin-top: 0.75rem;
-      }
-      .footer-links a {
-        color: #6c757d !important;
-      }
-      .footer-links a:hover {
-        color: #c82333 !important;
-        text-decoration: underline;
-      }
-    </style>
 
 
 </body>

@@ -1,0 +1,181 @@
+/* ===========================================================================
+   Design tokens — the single source of truth for colour, size and elevation.
+   ---------------------------------------------------------------------------
+   Loaded before site.css. Nothing else in the site should contain a literal
+   colour: before this file, #c82333 and four different alphas of
+   rgba(220, 53, 69, …) were spread across site.css and nine inline <style>
+   blocks in layouts/ and content/, which is exactly how two of them drifted.
+
+   Every contrast figure below is measured, not estimated, and is quoted
+   against the background the text actually sits on — which is the check the
+   August 2026 audit missed. It tested against white only, so the `preprint`
+   tag (4.12:1 on its own amber tint) and inline `code` (3.0:1) both passed a
+   review they should have failed.
+   =========================================================================== */
+
+:root {
+  /* --- Brand blue ------------------------------------------------------- */
+  /* Universitat de Barcelona. 500 is --color-site from the ub.edu theme;
+     UBNeuro's own logo uses #0078bf, which is the same blue to the eye, so
+     two independent sources agree on it. The rest of the ramp is 500 mixed
+     with white, replacing tints that used to be written inline as one-off
+     rgba() values at four different alphas. */
+  --ds-blue-50:  #f2f8fd;
+  --ds-blue-100: #e3effa;
+  --ds-blue-200: #c7e0f4;
+  --ds-blue-300: #a3cced;
+  --ds-blue-400: #61a8e1;
+  --ds-blue-500: #0072ce;  /* 4.89:1 on white — links at body size */
+  --ds-blue-600: #005ca9;  /* 6.77:1 on white, 5.72:1 on the 12% tint */
+  --ds-blue-700: #004880;  /* 9.38:1 */
+  --ds-blue-800: #003a66;  /* 11.69:1 */
+
+  /* The previous accent was #dc3545 at 4.53:1, which left no margin at all.
+     The UB coat of arms is polychrome — blue #3a6fc0, crimson #bb1646 and
+     gold #aa875c — so that red was not arbitrary, but blue is the colour the
+     University uses digitally, and it buys back contrast headroom. The
+     crimson is available as a secondary if one is ever needed. */
+
+  /* --- Neutrals --------------------------------------------------------- */
+  --ds-ink-900: #1a1a1a;  /* 17.4:1 — headings */
+  --ds-ink-700: #3a3a3a;  /* 11.4:1 — body copy */
+  --ds-ink-500: #6c757d;  /*  4.7:1 — dates, captions, quiet labels */
+  --ds-ink-400: #adb5bd;  /*  non-text only */
+  --ds-ink-300: #cccccc;
+  --ds-ink-200: #e8e8e8;
+  --ds-ink-100: #f4f4f4;
+  --ds-ink-50:  #f9f9f9;
+
+  /* --- Semantic --------------------------------------------------------- */
+  /* Publication types. `conference` was #0d6efd, which now collides with the
+     brand blue, so it moves to purple; the other two keep their hue. Each
+     text colour clears 4.5:1 on its own tint, not merely on white. */
+  --ds-journal-fill:    rgba(25, 135, 84, 0.12);
+  --ds-journal-text:    #146c43;   /* 5.54:1 on its tint */
+  --ds-conference-fill: rgba(111, 66, 193, 0.12);
+  --ds-conference-text: #59359a;   /* 7.30:1 on its tint */
+  --ds-preprint-fill:   rgba(255, 193, 7, 0.16);
+  --ds-preprint-text:   #8f5b00;   /* 5.27:1 — was #a66a00 at 4.12:1 */
+  --ds-code-text:       #1f7a37;   /* 5.1:1 — was #28a745 at 3.0:1 */
+
+  /* --- Surfaces --------------------------------------------------------- */
+  --ds-surface:        #ffffff;
+  --ds-surface-muted:  var(--ds-ink-50);
+  --ds-surface-sunken: var(--ds-ink-100);
+  --ds-text:           var(--ds-ink-700);
+  --ds-text-strong:    var(--ds-ink-900);
+  --ds-text-soft:      var(--ds-ink-500);
+  --ds-accent:         var(--ds-blue-500);
+  --ds-accent-strong:  var(--ds-blue-600);
+  --ds-accent-tint:    rgba(0, 114, 206, 0.07);
+  --ds-accent-tint-2:  rgba(0, 114, 206, 0.12);
+  --ds-accent-edge:    rgba(0, 114, 206, 0.35);
+  --ds-border:         rgba(0, 114, 206, 0.18);
+  --ds-border-muted:   rgba(108, 117, 125, 0.16);
+  --ds-hairline:       var(--ds-ink-200);
+
+  /* --- Type ------------------------------------------------------------- */
+  /* Two families where there was one. The theme sets `* { font-family:
+     Inconsolata }`, which gives the site its voice but also sets every
+     paragraph in a monospaced face — the reason CLAUDE.md records a reading
+     measure that could not be fixed without narrowing the whole 1000px frame.
+     Inconsolata keeps the brand, chrome, headings, dates, code and data;
+     running prose moves to a proportional face. To revert the whole change,
+     point --ds-font-prose at --ds-font-mono. */
+  --ds-font-mono:  "Inconsolata", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --ds-font-prose: ui-sans-serif, -apple-system, "Segoe UI", Inter, Helvetica, Arial, sans-serif;
+
+  --ds-text-2xs: 0.68rem;
+  --ds-text-xs:  0.75rem;
+  --ds-text-sm:  0.88rem;
+  --ds-text-md:  1rem;
+  --ds-text-lg:  1.05rem;
+  --ds-text-xl:  1.25rem;
+  --ds-text-2xl: 1.6rem;
+  --ds-text-3xl: 2.1rem;
+
+  --ds-leading-tight: 1.25;
+  --ds-leading-body:  1.6;
+
+  /* --- Space (4px base) ------------------------------------------------- */
+  /* Spacing was ad-hoc rem values — 0.65, 0.7, 0.75, 0.9, 1.1, 1.35, 1.75,
+     2.5 — chosen per rule. */
+  --ds-space-1: 4px;
+  --ds-space-2: 8px;
+  --ds-space-3: 12px;
+  --ds-space-4: 16px;
+  --ds-space-5: 24px;
+  --ds-space-6: 32px;
+  --ds-space-7: 40px;
+  --ds-space-8: 64px;
+
+  /* --- Radius, elevation, layout, motion -------------------------------- */
+  --ds-radius-sm:   4px;
+  --ds-radius-md:   8px;
+  --ds-radius-lg:   10px;
+  --ds-radius-xl:   12px;
+  --ds-radius-2xl:  14px;
+  --ds-radius-pill: 999px;
+
+  --ds-shadow-sm:     0 2px 12px rgba(0, 0, 0, 0.05);
+  --ds-shadow-md:     0 6px 16px rgba(0, 0, 0, 0.03);
+  --ds-shadow-lg:     0 12px 28px rgba(0, 0, 0, 0.04);
+  --ds-shadow-header: 0 2px 12px rgba(0, 0, 0, 0.08);
+
+  --ds-measure: 1000px;
+  --ds-rail:    3px;
+
+  --ds-ease:        cubic-bezier(0.4, 0, 0.2, 1);
+  --ds-duration:    0.15s;
+  --ds-duration-lg: 0.25s;
+
+  /* --- Compatibility aliases -------------------------------------------- */
+  /* The names site.css and the inline blocks already use. Keeping them means
+     the colour change lands atomically across every file, and each block can
+     then be retired on its own rather than in one unreviewable commit.
+     Delete an alias once nothing references it. */
+  --accent:            var(--ds-accent);
+  --accent-dark:       var(--ds-accent-strong);
+  --card-bg:           var(--ds-surface);
+  --card-bg-muted:     var(--ds-surface-muted);
+  --card-border:       var(--ds-border);
+  --card-border-muted: var(--ds-border-muted);
+  --card-shadow:       var(--ds-shadow-lg);
+  --text-muted:        var(--ds-text);
+}
+
+/* --- Dark theme ----------------------------------------------------------
+   Inert until something sets data-theme="dark" on <html>. Shipped as tokens
+   only, with no toggle: adding the control and remembering the choice is a
+   small separate change, and switching a visitor's site out from under them
+   on prefers-color-scheme alone is not something to do in the same commit as
+   a palette change. Only surfaces are redefined — no component rule changes.
+   #0072ce drops to 3.4:1 on a dark ground, so the accent lightens. */
+[data-theme="dark"] {
+  --ds-surface:        #16181a;
+  --ds-surface-muted:  #1d2023;
+  --ds-surface-sunken: #24282c;
+  --ds-text:           #d6d9dc;
+  --ds-text-strong:    #f2f4f6;
+  --ds-text-soft:      #9aa1a8;
+  --ds-accent:         #5fb3f5;  /* 7.84:1 on #16181a */
+  --ds-accent-strong:  #8fcbff;  /* 10.30:1 */
+  --ds-accent-tint:    rgba(95, 179, 245, 0.10);
+  --ds-accent-tint-2:  rgba(95, 179, 245, 0.16);
+  --ds-accent-edge:    rgba(95, 179, 245, 0.35);
+  --ds-border:         rgba(95, 179, 245, 0.24);
+  --ds-border-muted:   rgba(154, 161, 168, 0.20);
+  --ds-hairline:       #2b2f33;
+  --ds-code-text:      #64c98a;
+  --ds-journal-text:   #6fd49b;
+  --ds-conference-text:#c0a3f0;
+  --ds-preprint-text:  #e8b661;
+  --ds-shadow-sm:      0 2px 12px rgba(0, 0, 0, 0.5);
+  --ds-shadow-md:      0 6px 16px rgba(0, 0, 0, 0.45);
+  --ds-shadow-lg:      0 12px 28px rgba(0, 0, 0, 0.5);
+  --ds-shadow-header:  0 2px 12px rgba(0, 0, 0, 0.6);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --ds-duration: 0s; --ds-duration-lg: 0s; }
+}
