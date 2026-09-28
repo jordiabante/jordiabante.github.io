@@ -424,38 +424,216 @@ summary:focus-visible,
 /* ---------------------------------------------------------------------------
    7. Timeline and profile  (the bio page) */
 
+/* Newest first, as a branch graph: data/bio.yaml gives each row a lane and a
+   span, and layouts/shortcodes/bio-timeline.html turns that into pieces of
+   line inside .timeline-graph. Each row's graph cell stretches the full height
+   of the row, gap included, so the lines join up between rows. */
 .timeline {
-  position: relative;
+  --tl-lane-w: 28px;
+  --tl-node-y: 19px;       /* level with the date line inside the card */
+  --tl-node: 10px;
+  --tl-line: 2px;
+  --tl-curve: 20px;
+  --tl-colour: var(--ds-accent-edge);
+  list-style: none;
   margin: var(--ds-space-5) 0 var(--ds-space-6);
-  padding-left: 1.75rem;
-  border-left: 2px solid var(--ds-border);
-  display: flex;
-  flex-direction: column;
-  gap: 1.75rem;
+  padding: 0;
 }
-.timeline-item {
+/* The theme numbers every `#content ol > li` with a "[1]" :before, which here
+   would become a third grid cell. */
+#content .timeline > .timeline-row {
+  margin: 0;
+}
+#content .timeline > .timeline-row::before {
+  content: none;
+}
+.timeline-row {
+  display: grid;
+  grid-template-columns: calc(var(--tl-lanes) * var(--tl-lane-w)) minmax(0, 1fr);
+  column-gap: var(--ds-space-2);
+}
+.timeline-graph {
   position: relative;
 }
-.timeline-item::before {
-  content: "";
+.timeline-graph > span {
   position: absolute;
-  left: -2.02rem;
-  top: 0.3rem;
-  width: 10px;
-  height: 10px;
+  --tl-x: calc(var(--lane) * var(--tl-lane-w) + var(--tl-lane-w) / 2);
+}
+.tl-line {
+  left: calc(var(--tl-x) - var(--tl-line) / 2);
+  width: var(--tl-line);
+  background: var(--tl-colour);
+}
+.tl-through { top: 0; bottom: 0; }
+.tl-up      { top: 0; height: var(--tl-node-y); }
+.tl-down    { top: var(--tl-node-y); bottom: 0; border-radius: var(--tl-line); }
+.tl-up--open {
+  background: linear-gradient(to top, var(--tl-colour), transparent);
+}
+/* A branch leaving its dot downwards and curving into the lane it came from. */
+.tl-fork,
+.tl-merge {
+  left: calc(var(--tl-x) - var(--tl-line) / 2);
+  width: calc(var(--span) * var(--tl-lane-w) + var(--tl-line));
+  top: var(--tl-node-y);
+  border: 0 solid var(--tl-colour);
+  border-right-width: var(--tl-line);
+}
+.tl-fork {
+  height: var(--tl-curve);
+  border-bottom-width: var(--tl-line);
+  border-bottom-right-radius: var(--tl-curve);
+}
+/* A branch arriving from below and curving into this row's dot. */
+.tl-merge {
+  bottom: 0;
+  border-top-width: var(--tl-line);
+  border-top-right-radius: var(--tl-curve);
+}
+/* A branch that ended while the line it came from went on: it curves back
+   into that line below this row's dot, rather than stopping in mid-air. */
+.tl-rejoin {
+  left: calc(var(--tl-x) - var(--tl-line) / 2);
+  width: calc(var(--span) * var(--tl-lane-w) + var(--tl-line));
+  bottom: 0;
+  height: var(--tl-curve);
+  border: 0 solid var(--tl-colour);
+  border-right-width: var(--tl-line);
+  border-top-width: var(--tl-line);
+  border-top-right-radius: var(--tl-curve);
+}
+.tl-node {
+  z-index: 1;
+  left: calc(var(--tl-x) - var(--tl-node) / 2);
+  top: calc(var(--tl-node-y) - var(--tl-node) / 2);
+  width: var(--tl-node);
+  height: var(--tl-node);
   border-radius: 50%;
   background: var(--ds-accent);
+  transition: transform var(--ds-duration-lg) var(--ds-ease);
+}
+/* A one-off event, as opposed to something with a duration. */
+.tl-node--point {
+  background: var(--ds-surface);
+  border: var(--tl-line) solid var(--ds-accent);
+}
+.timeline-row--now .tl-node {
+  box-shadow: 0 0 0 5px var(--ds-accent-tint-2);
+}
+
+.timeline-body {
+  padding-bottom: var(--ds-space-4);
+}
+.timeline-card {
+  padding: var(--ds-space-2) var(--ds-space-3);
+  border-radius: var(--ds-radius-md);
+  transition: background var(--ds-duration-lg) var(--ds-ease);
+}
+.timeline-row:hover .timeline-card,
+.timeline-row--now .timeline-card {
+  background: var(--ds-accent-tint);
+}
+.timeline-row:hover .tl-node {
+  transform: scale(1.3);
+}
+.timeline-card p {
+  margin: 0;
+  color: var(--ds-text);
+}
+#content .timeline-card p.timeline-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ds-space-2);
+  margin-bottom: var(--ds-space-1);
 }
 .timeline-year {
-  display: inline-block;
   font-weight: 700;
   color: var(--ds-accent-strong);
   font-size: 0.85rem;
-  margin-bottom: var(--ds-space-1);
 }
-.timeline-item p {
-  margin: 0;
-  color: var(--ds-text);
+#content .timeline-card h3 {
+  margin: 0 0 var(--ds-space-1);
+  font-size: var(--ds-text-lg);
+  line-height: var(--ds-leading-tight);
+  color: var(--ds-text-strong);
+}
+/* The institution sits on its own line, between the role and the detail. */
+/* The institution sits on its own line, between the role and the detail. */
+#content .timeline-card p.timeline-org {
+  margin-bottom: var(--ds-space-1);
+  font-family: var(--ds-font-mono);
+  font-size: var(--ds-text-sm);
+  font-weight: 700;
+  color: var(--ds-accent-strong);
+}
+/* Something that happened during a stage, nested in that stage's card so it
+   cannot be read as coming after it. The hollow dot matches the graph's
+   one-off marker. */
+.timeline-event {
+  position: relative;
+  margin-top: var(--ds-space-3);
+  padding-left: var(--ds-space-4);
+  border-left: var(--tl-line) solid var(--ds-accent-tint-2);
+}
+.timeline-event::before {
+  content: "";
+  position: absolute;
+  left: calc(-1 * (var(--tl-node) + var(--tl-line)) / 2);
+  top: calc(var(--tl-node-y) - var(--ds-space-2) - var(--tl-node) / 2);
+  width: var(--tl-node);
+  height: var(--tl-node);
+  box-sizing: border-box;
+  border-radius: 50%;
+  background: var(--ds-surface);
+  border: var(--tl-line) solid var(--ds-accent);
+}
+#content .timeline-card p.timeline-event-title {
+  margin-bottom: var(--ds-space-1);
+  font-family: var(--ds-font-mono);
+  font-weight: 700;
+  color: var(--ds-text-strong);
+}
+.timeline-kind {
+  font-family: var(--ds-font-mono);
+  font-size: var(--ds-text-2xs);
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  padding: 0.1rem 0.55rem;
+  border-radius: var(--ds-radius-pill);
+}
+/* Reuses the measured tag pairs: each text colour clears 4.5:1 on its tint. */
+.timeline-kind--position {
+  background: var(--ds-accent-tint-2);
+  color: var(--ds-accent-strong);
+}
+.timeline-kind--education {
+  background: var(--ds-journal-fill);
+  color: var(--ds-journal-text);
+}
+.timeline-kind--fellowship {
+  background: var(--ds-preprint-fill);
+  color: var(--ds-preprint-text);
+}
+/* A short staggered entrance. Nothing moves once the page has settled, and
+   nothing moves at all under reduced motion. Only the card fades: the graph
+   has to stay joined up between rows. */
+@media (prefers-reduced-motion: no-preference) {
+  .timeline-card {
+    animation: timeline-in 0.4s var(--ds-ease) both;
+  }
+  .timeline-row:nth-child(2) .timeline-card { animation-delay: 0.05s; }
+  .timeline-row:nth-child(3) .timeline-card { animation-delay: 0.1s; }
+  .timeline-row:nth-child(4) .timeline-card { animation-delay: 0.15s; }
+  .timeline-row:nth-child(5) .timeline-card { animation-delay: 0.2s; }
+  .timeline-row:nth-child(6) .timeline-card { animation-delay: 0.25s; }
+  .timeline-row:nth-child(n+7) .timeline-card { animation-delay: 0.3s; }
+}
+@keyframes timeline-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
+}
 }
 
 .profile-card {
@@ -1113,13 +1291,13 @@ summary:focus-visible,
     gap: var(--ds-space-4);
   }
 
-  /* The timeline rail and its dots are sized for a roomy left margin. */
+  /* Narrower lanes, so the text keeps most of a phone's width. */
   .timeline {
-    padding-left: 1.25rem;
-    gap: 1.35rem;
+    --tl-lane-w: 20px;
   }
-  .timeline-item::before {
-    left: -1.52rem;
+  .timeline-card {
+    padding-left: var(--ds-space-2);
+    padding-right: var(--ds-space-2);
   }
 
   .profile-card {
