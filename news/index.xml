@@ -16,7 +16,7 @@
       <pubDate>Wed, 18 Nov 2026 00:00:00 +0000</pubDate>
       <guid>https://jordiabante.github.io/news/2026-11-18-photosvi-preprint/</guid>
       
-      <description>&lt;p&gt;Our new preprint is out on &lt;a href=&#34;https://doi.org/10.64898/2026.11.16.767032&#34;&gt;bioRxiv&lt;/a&gt; 🎉 It introduces &lt;strong&gt;PhotoSVI&lt;/strong&gt;, a multi-scale statistical model for fiber photometry. PhotoSVI splits a recording into a slow tonic signal and discrete release events and estimates both together, where current pipelines separate them before measuring either. It works on a single recording and pools recordings across a cohort. In mouse dopamine recordings, it shows that a nociceptin receptor agonist enhances the phasic response to morphine while reducing the tonic one, an effect that count-based analyses largely missed.&lt;/p&gt;</description>
+      <description>&lt;p&gt;Our new preprint is out on &lt;a href=&#34;https://doi.org/10.64898/2026.11.16.767032&#34;&gt;bioRxiv&lt;/a&gt; 🎉 It introduces &lt;strong&gt;PhotoSVI&lt;/strong&gt;, a multi-scale statistical model for fiber photometry. PhotoSVI splits a recording into a slow tonic signal and discrete release events and estimates both together, where current pipelines separate them before measuring either. It works on a single recording and pools recordings across a cohort, and the code is &lt;a href=&#34;https://github.com/AbanteLab/photosvi&#34;&gt;available on GitHub&lt;/a&gt;. In mouse dopamine recordings, it shows that a nociceptin receptor agonist enhances the phasic response to morphine while reducing the tonic one, an effect that count-based analyses largely missed.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Fully funded PhD position on MINDAI</title>
